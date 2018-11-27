@@ -9,6 +9,7 @@ import (
 func main() {
 	app := iris.New()
 	//app.Logger().SetLevel("debug")
+	app.StaticWeb("/public","./web/public")
 	app.RegisterView(iris.HTML("./web/views", ".html").Layout("shared/layout.html").Reload(true))
 
 	mvc.Configure(app.Party("/user"), UserMvc)
