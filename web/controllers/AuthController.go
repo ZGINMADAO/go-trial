@@ -3,11 +3,14 @@ package controllers
 import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
+	//"fmt"
 	"fmt"
+	"go-trial/services"
 )
 
 type AuthController struct {
-	Ctx iris.Context
+	Ctx  iris.Context
+	auth services.AuthService
 }
 
 func (_ *AuthController) GetLogin() mvc.View {
@@ -18,7 +21,9 @@ func (_ *AuthController) GetLogin() mvc.View {
 }
 
 func (my *AuthController) PostLogin() {
-	username := my.Ctx.Params().Get("username")
-	password := my.Ctx.Params().Get("password")
+	username := my.Ctx.PostValue("username")
+	password := my.Ctx.PostValue("password")
+	data := my.auth.Get(1)
+	fmt.Println(data)
 	fmt.Println(username, password)
 }

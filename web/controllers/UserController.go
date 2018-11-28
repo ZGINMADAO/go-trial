@@ -3,6 +3,8 @@ package controllers
 import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
+	"go-trial/datasource"
+	"go-trial/repositories"
 	"fmt"
 )
 
@@ -18,8 +20,8 @@ func (_ *UserController) Get() mvc.View {
 	}
 }
 func (my *UserController) PostAdd() string {
-	username := my.Ctx.Params().Get("username")
-	password := my.Ctx.Params().Get("password")
 
-	fmt.Println(username, password)
+	temp := repositories.New(datasource.Instance())
+	fmt.Println(temp)
+	return "add"
 }

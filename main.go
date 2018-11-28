@@ -4,9 +4,11 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
 	"go-trial/web/controllers"
+	"go-trial/services"
 )
 
 func main() {
+
 	app := iris.New()
 	//app.Logger().SetLevel("debug")
 	app.Favicon("./favicon.ico")
@@ -23,6 +25,10 @@ func AdminMvc(app *mvc.Application) {
 		ctx.Application().Logger().Infof("Admin Path: %s", ctx.Path())
 		ctx.Next()
 	})
+
+	authService := services.NewAuth()
+	app.Register(authService)
+
 	app.Handle(new(controllers.AuthController))
 }
 
