@@ -4,6 +4,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
 	"go-trial/services"
+	"fmt"
 )
 
 type AuthController struct {
@@ -23,12 +24,16 @@ func (my *AuthController) PostLogin() {
 
 	username := my.Ctx.PostValue("username")
 	password := my.Ctx.PostValue("password")
-
-	ok := my.Auth.Search(username, password)
-	if ok == true {
-		my.Ctx.JSON(apiResource(true, nil, "登录成功"))
+	fmt.Printf("类型为%T,值为%v", username, username)
+	if len(username) < 5 || len(password) < 5 {
+		my.Ctx.JSON(apiResource(false, nil, "用户或密码不能少于5位"))
 	} else {
-		my.Ctx.JSON(apiResource(false, nil, "登录失败"))
-	}
+		ok := my.Auth.Search(username, password)
+		if ok == true {
+			my.Ctx.JSON(apiResource(true, nil, "登录成功"))
+		} else {
+			my.Ctx.JSON(apiResource(false, nil, "登录失败"))
+		}
 
+	}
 }

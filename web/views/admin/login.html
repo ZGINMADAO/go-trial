@@ -38,7 +38,7 @@
         </div>
         <h3>欢迎使用 H+</h3>
 
-        <form class="m-t" role="form" action="{{.url}}" method="post">
+        <form class="m-t" role="form">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="用户名" required="" id="username">
             </div>
@@ -46,7 +46,6 @@
                 <input type="password" class="form-control" placeholder="密码" required="" id="password">
             </div>
             <button type="button" class="btn btn-primary block full-width m-b" id="login">登 录</button>
-
 
             <p class="text-muted text-center"><a href="login.html#">
                 <small>忘记密码了？</small>
@@ -58,7 +57,7 @@
 </div>
 <script src="/public/js/jquery.min.js?v=2.1.4"></script>
 <script src="/public/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="/public/js/"></script>
+<script src="/public/js/plugins/layer/layer.min.js"></script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 </body>
 
@@ -71,9 +70,12 @@
                 data: {username: $("#username").val(), password: $("#password").val()},
                 success: function (result) {
                     if (result.status) {
-                        window.location.href = '/index';
+                        layer.alert(result.message, {icon: 6}, function () {
+                            window.location.href = '/index';
+                        });
+
                     } else {
-                        layer.alert(result.message)
+                        layer.alert(result.message, {icon: 5})
                     }
                 }
             });
