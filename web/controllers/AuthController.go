@@ -43,3 +43,7 @@ func (_ *AuthController) Get() mvc.View {
 		Data: iris.Map{"url": "/admin/login"},
 	}
 }
+
+func (my *AuthController) GetTrees() {
+
+}
