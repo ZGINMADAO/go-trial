@@ -11,7 +11,7 @@ type Database struct {
 }
 
 var Db = Database{
-	Host: "127.0.0.1",
+	Host: "120.26.106.212",
 	Port: 3306,
 	User: "root",
 	Pass: "W2lqsNVra86duEP9",

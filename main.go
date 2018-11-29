@@ -11,12 +11,13 @@ func main() {
 
 	app := iris.New()
 	//app.Logger().SetLevel("debug")
-	app.Favicon("./favicon.ico")
+	app.Favicon("./web/public/favicon.ico")
 	app.StaticWeb("/public", "./web/public")
 	app.RegisterView(iris.HTML("./web/views", ".html").Reload(true))
 
 	mvc.Configure(app.Party("/admin"), AdminMvc)
 	mvc.Configure(app.Party("/home"), HomeMvc)
+	mvc.Configure(app.Party("/test"), TestMvc)
 	app.Run(iris.Addr("0.0.0.0:8080"))
 }
 
@@ -38,4 +39,12 @@ func HomeMvc(app *mvc.Application) {
 		ctx.Next()
 	})
 	app.Handle(new(controllers.UserController))
+}
+
+func TestMvc(app *mvc.Application) {
+	app.Router.Use(func(ctx iris.Context) {
+		ctx.Application().Logger().Infof("Test Path: %s", ctx.Path())
+		ctx.Next()
+	})
+	app.Handle(new(controllers.TestController))
 }

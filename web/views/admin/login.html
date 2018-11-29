@@ -19,6 +19,7 @@
 
     <link href="/public/css/animate.min.css" rel="stylesheet">
     <link href="/public/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
@@ -57,13 +58,15 @@
 </div>
 <script src="/public/js/jquery.min.js?v=2.1.4"></script>
 <script src="/public/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="/public/js/plugins/layer/layer.min.js"></script>
+<script src="/public/js/plugins/layer-v3.1.1/layer/layer.js"></script>
+
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 </body>
 
 <script>
     $(function () {
         $(document).on('click', '#login', function () {
+
             $.ajax({
                 type: 'post',
                 url: '/admin/login',
@@ -71,7 +74,7 @@
                 success: function (result) {
                     if (result.status) {
                         layer.alert(result.message, {icon: 6}, function () {
-                            window.location.href = '/index';
+                            window.location.href = '/admin';
                         });
 
                     } else {

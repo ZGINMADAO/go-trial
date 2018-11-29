@@ -34,6 +34,12 @@ func (my *AuthController) PostLogin() {
 		} else {
 			my.Ctx.JSON(apiResource(false, nil, "登录失败"))
 		}
+	}
+}
 
+func (_ *AuthController) Get() mvc.View {
+	return mvc.View{
+		Name: "admin/index.html",
+		Data: iris.Map{"url": "/admin/login"},
 	}
 }
