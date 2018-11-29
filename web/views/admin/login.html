@@ -58,6 +58,7 @@
 </div>
 <script src="/public/js/jquery.min.js?v=2.1.4"></script>
 <script src="/public/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/public/js/"></script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 </body>
 
@@ -69,7 +70,11 @@
                 url: '/admin/login',
                 data: {username: $("#username").val(), password: $("#password").val()},
                 success: function (result) {
-                    console.log(result);
+                    if (result.status) {
+                        window.location.href = '/index';
+                    } else {
+                        layer.alert(result.message)
+                    }
                 }
             });
         })

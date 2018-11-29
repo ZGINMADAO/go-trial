@@ -21,7 +21,7 @@ func (_ *UserController) Get() mvc.View {
 }
 func (my *UserController) PostAdd() string {
 
-	temp := repositories.New(datasource.Instance())
+	temp := repositories.NewAdmin(datasource.Instance())
 	fmt.Println(temp)
 	return "add"
 }

@@ -3,14 +3,13 @@ package controllers
 import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
-	//"fmt"
-	"fmt"
 	"go-trial/services"
 )
 
 type AuthController struct {
+	ApiJson
 	Ctx  iris.Context
-	auth services.AuthService
+	Auth services.AuthService
 }
 
 func (_ *AuthController) GetLogin() mvc.View {
@@ -21,9 +20,15 @@ func (_ *AuthController) GetLogin() mvc.View {
 }
 
 func (my *AuthController) PostLogin() {
+
 	username := my.Ctx.PostValue("username")
 	password := my.Ctx.PostValue("password")
-	data := my.auth.Get(1)
-	fmt.Println(data)
-	fmt.Println(username, password)
+
+	ok := my.Auth.Search(username, password)
+	if ok == true {
+		my.Ctx.JSON(apiResource(true, nil, "登录成功"))
+	} else {
+		my.Ctx.JSON(apiResource(false, nil, "登录失败"))
+	}
+
 }

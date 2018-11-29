@@ -8,8 +8,8 @@ import (
 
 type AuthService interface {
 	Get(id int) *datamodels.Admin
-	//GetAll() []datamodels.Admin
-	//Search(username string) []datamodels.Admin
+	GetAll() []datamodels.Admin
+	Search(username, password string) bool
 
 	//Delete(id int) error
 	//Update(user *datamodels.Admin, columns []string) error
@@ -22,7 +22,7 @@ type authService struct {
 
 func NewAuth() AuthService {
 	return &authService{
-		repository: repositories.New(datasource.Instance()),
+		repository: repositories.NewAdmin(datasource.Instance()),
 	}
 }
 
@@ -34,13 +34,13 @@ func (my *authService) Get(id int) *datamodels.Admin {
 	return my.repository.Get(id)
 }
 
-//func (s *AuthService)GetAll() []models.StarInfo {
-//	return s.dao.GetAll()
-//}
-//
-//func (s *AuthService)Search(country string) []models.StarInfo {
-//	return s.dao.Search(country)
-//}
+func (my *authService) GetAll() []datamodels.Admin {
+	return my.repository.GetAll()
+}
+
+func (my *authService) Search(username, password string) bool {
+	return my.repository.Search(username, password)
+}
 
 //func (s *AuthService)Delete(id int) error {
 //	return s.dao.Delete(id)
