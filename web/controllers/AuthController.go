@@ -28,7 +28,7 @@ func (my *AuthController) PostLogin() {
 	if len(username) < 5 || len(password) < 5 {
 		my.Ctx.JSON(apiResource(false, nil, "用户或密码不能少于5位"))
 	} else {
-		ok := my.Auth.Search(username, password)
+		ok := my.Auth.AdminSearch(username, password)
 		if ok == true {
 			my.Ctx.JSON(apiResource(true, nil, "登录成功"))
 		} else {
@@ -45,5 +45,6 @@ func (_ *AuthController) Get() mvc.View {
 }
 
 func (my *AuthController) GetTrees() {
-
+	trees := my.Auth.TreeGetAll()
+	my.Ctx.JSON(trees)
 }

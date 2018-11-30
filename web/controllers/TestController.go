@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/kataras/iris"
 	"fmt"
-	"log"
+	//"log"
 	"go-trial/datamodels"
 	"go-trial/datasource"
 )
@@ -23,14 +23,12 @@ func (my *TestController) Get() string {
 
 	engine := datasource.Instance()
 
-	var admin datamodels.Admin
-	admin.Id = 2
-	_, errGet := engine.Get(&admin)
-	if errGet != nil {
-		log.Fatal(errGet)
-	}
-	fmt.Println("fuck you")
-	fmt.Println(admin)
+	var tree []datamodels.Tree
+
+	//tree := make([]datamodels.Tree, 0)
+	engine.Find(&tree)
+
+	fmt.Println(tree)
 
 	//var tree datamodels.Tree
 

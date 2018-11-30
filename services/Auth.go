@@ -7,22 +7,26 @@ import (
 )
 
 type AuthService interface {
-	Get(id int) *datamodels.Admin
-	GetAll() []datamodels.Admin
-	Search(username, password string) bool
+	AdminGet(id int) *datamodels.Admin
+	AdminGetAll() []datamodels.Admin
+	AdminSearch(username, password string) bool
 
 	//Delete(id int) error
 	//Update(user *datamodels.Admin, columns []string) error
 	//Create(user *datamodels.Admin) error
+
+	TreeGetAll() []datamodels.Tree
 }
 
 type authService struct {
-	repository *repositories.AdminRepository
+	adminRepository *repositories.AdminRepository
+	treeRepository  *repositories.TreeRepository
 }
 
 func NewAuth() AuthService {
 	return &authService{
-		repository: repositories.NewAdmin(datasource.Instance()),
+		adminRepository: repositories.NewAdmin(datasource.Instance()),
+		treeRepository:  repositories.NewTree(datasource.Instance()),
 	}
 }
 
@@ -30,16 +34,20 @@ func NewAuth() AuthService {
 //	return &userMemoryRepository{source: source}
 //}
 
-func (my *authService) Get(id int) *datamodels.Admin {
-	return my.repository.Get(id)
+func (my *authService) AdminGet(id int) *datamodels.Admin {
+	return my.adminRepository.Get(id)
 }
 
-func (my *authService) GetAll() []datamodels.Admin {
-	return my.repository.GetAll()
+func (my *authService) AdminGetAll() []datamodels.Admin {
+	return my.adminRepository.GetAll()
 }
 
-func (my *authService) Search(username, password string) bool {
-	return my.repository.Search(username, password)
+func (my *authService) AdminSearch(username, password string) bool {
+	return my.adminRepository.Search(username, password)
+}
+
+func (my *authService) TreeGetAll() ([]datamodels.Tree) {
+	return my.treeRepository.GetAll()
 }
 
 //func (s *AuthService)Delete(id int) error {
