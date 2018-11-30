@@ -45,6 +45,7 @@ func (_ *AuthController) Get() mvc.View {
 }
 
 func (my *AuthController) GetTrees() {
+	my.Ctx.Values()
 	trees := my.Auth.TreeGetAll()
 	my.Ctx.JSON(trees)
 }

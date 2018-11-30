@@ -10,6 +10,15 @@ import (
 func main() {
 
 	app := iris.New()
+
+	app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
+		ctx.WriteString("404")
+	})
+
+	app.OnErrorCode(500, func(ctx iris.Context) {
+		ctx.WriteString("500")
+	})
+
 	//app.Logger().SetLevel("debug")
 	app.Favicon("./web/public/favicon.ico")
 	app.StaticWeb("/public", "./web/public")

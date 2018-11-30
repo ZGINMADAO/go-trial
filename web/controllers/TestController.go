@@ -12,8 +12,18 @@ type TestController struct {
 	Ctx iris.Context
 }
 
-func (my *TestController) Get() string {
+func (my *TestController) Get() {
+	my.Ctx.View("user/login.html")
+	return
 
+	var s1 = struct {
+		Id   int
+		Name string
+	}{
+		Id:   2,
+		Name: "tom",
+	}
+	my.Ctx.JSON(s1)
 	//var err error
 	//
 	//db := config.Db
@@ -35,6 +45,6 @@ func (my *TestController) Get() string {
 	//engine.Sync2(new(datamodels.Tree))
 	//engine.Id(1).Delete(&tree)
 	//fmt.Println(tree)
-	return "fuck you"
+	//return "fuck you"
 
 }
