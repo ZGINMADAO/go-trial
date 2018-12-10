@@ -56,6 +56,7 @@ func (my *AuthController) PostLogin() {
 
 func (my *AuthController) Get() mvc.View {
 
+
 	var result []datamodels.Tree
 	my.DB.Find(&result)
 

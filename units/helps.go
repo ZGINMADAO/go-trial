@@ -2,6 +2,7 @@ package units
 
 import (
 	"go-trial/datamodels"
+	"log"
 )
 
 
@@ -68,6 +69,13 @@ type List struct {
 }
 
 func Recursive(Trees []datamodels.Tree, parentId int, nodeList []*List) {
+
+	defer func() {
+		if err := recover(); err != nil {
+			log.Printf("run time panic: %v", err)
+		}
+	}()
+
 	i:=0
 	for _, val := range Trees {
 
