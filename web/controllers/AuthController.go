@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go-trial/datamodels"
 	"go-trial/services"
+	"go-trial/units"
 )
 
 type AuthController struct {
@@ -53,35 +54,16 @@ func (my *AuthController) PostLogin() {
 	}
 }
 
-type List struct {
-	Title    string
-	ParentId int
-	Id       int
-	Child    []List
-}
-
-func Recursive(Trees []datamodels.Tree, parentId int, all []*List) {
-
-
-	for _, val := range Trees {
-
-		if parentId == val.ParentId {
-			child := List{Title: val.Title, ParentId: val.ParentId, Id: val.Id, Child: node}
-			node = append(all, child)
-			Recursive(Trees, val.ParentId, node)
-
-		}
-	}
-}
-
 func (my *AuthController) Get() mvc.View {
 
 	var result []datamodels.Tree
 	my.DB.Find(&result)
 
-	var all []*List
+	var all []*units.List
 
-	Recursive(result, 0, all)
+	units.Recursive(result, 0, all)
+
+	fmt.Println(all)
 
 	//m := make(map[string]string)
 	//m["a"] = ""
