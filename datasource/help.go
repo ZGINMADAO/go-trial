@@ -4,19 +4,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"fmt"
-	//"sync"
 	"go-trial/config"
 	"log"
 )
 
-var (
-	//ormEngine *xorm.Engine
-	//lock      sync.Locker
-)
 
 func Instance() *xorm.Engine {
-
-
 	db := config.Db
 	driveSource := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8",
 		db.User, db.Pass, db.Host, db.Port, db.Name)
@@ -33,11 +26,5 @@ func Instance() *xorm.Engine {
 	cache := xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000)
 	engine.SetDefaultCacher(cache)
 
-	pingErr := engine.Ping()
-	fmt.Println("Ping")
-	fmt.Println(pingErr)
-	if pingErr != nil {
-		log.Fatal("Ping error")
-	}
 	return engine
 }

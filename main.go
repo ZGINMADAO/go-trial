@@ -4,10 +4,15 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
 	"go-trial/web/controllers"
-	"go-trial/services"
+	"go-trial/datasource"
+	"github.com/go-xorm/xorm"
 )
 
+var DB *xorm.Engine
+
 func main() {
+
+	DB = datasource.Instance()
 
 	app := iris.New()
 
@@ -31,13 +36,13 @@ func main() {
 }
 
 func AdminMvc(app *mvc.Application) {
+
 	app.Router.Use(func(ctx iris.Context) {
 		ctx.Application().Logger().Infof("Admin Path: %s", ctx.Path())
 		ctx.Next()
 	})
 
-	authService := services.NewAuth()
-	app.Register(authService)
+	app.Register(DB)
 
 	app.Handle(new(controllers.AuthController))
 }
