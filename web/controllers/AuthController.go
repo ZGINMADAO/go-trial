@@ -59,12 +59,12 @@ func (my *AuthController) Get() mvc.View {
 	var result []datamodels.Tree
 	my.DB.Find(&result)
 
-	nodeList := make([]units.List, 0, 10)
+	nodeList := make([]units.List, 0)
 
-	fmt.Printf("addr of osa:%p  nodeList:%v", nodeList, nodeList)
-	fmt.Println()
+	//fmt.Printf("addr of osa:%p  nodeList:%v", nodeList, nodeList)
+	//fmt.Println()
 
-	units.Recursive(result, 0, nodeList)
+	units.Recursive(result, 0, &nodeList)
 
 	fmt.Printf("addr of osa:%p  nodeList:%v", nodeList, nodeList)
 	fmt.Println()

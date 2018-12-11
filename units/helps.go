@@ -87,9 +87,7 @@ type List struct {
 //	}
 //}
 
-
-
-func Recursive(Trees []datamodels.Tree, parentId int, nodeList []List) {
+func Recursive(Trees []datamodels.Tree, parentId int, nodeList *[]List) {
 
 	for _, val := range Trees {
 
@@ -97,19 +95,18 @@ func Recursive(Trees []datamodels.Tree, parentId int, nodeList []List) {
 
 			temp := make([]List, 0)
 
+			fmt.Printf("%p\n",&temp)
+
 			child := List{Id: val.Id, Title: val.Title, ParentId: val.ParentId, Child: temp}
 
-			tempNode := append(nodeList, child)
+			*nodeList = append(*nodeList, child)
 
-			fmt.Printf("addr of osa:%p  nodeList:%v", nodeList,  tempNode)
-			fmt.Println()
-			//
-			//Recursive(Trees, val.Id, temp)
+			fmt.Printf("addr of %p,content:%v\n", nodeList, nodeList)
+			Recursive(Trees, val.Id, &temp)
 
 		}
 	}
 }
-
 
 //func SolvePointer(nodeList *[]List) {
 //	temp := *nodeList
