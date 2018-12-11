@@ -14,9 +14,11 @@ func main() {
 func change(s2 []int) {
 
 	fmt.Println()
-	s2[0] = 2
+
 	s2 = append(s2, 1)
 	fmt.Printf("change 中的 %p \n", &s2)
+
+	s2[0] = 2
 	fmt.Println(s2)
 	fmt.Println("change结束")
 }

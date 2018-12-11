@@ -99,8 +99,9 @@ func Recursive(Trees []datamodels.Tree, parentId int, nodeList []List) {
 
 			child := List{Id: val.Id, Title: val.Title, ParentId: val.ParentId, Child: temp}
 
-			nodeList = append(nodeList, child)
-			fmt.Printf("addr of osa:%p  nodeList:%v", nodeList,  nodeList)
+			tempNode := append(nodeList, child)
+
+			fmt.Printf("addr of osa:%p  nodeList:%v", nodeList,  tempNode)
 			fmt.Println()
 			//
 			//Recursive(Trees, val.Id, temp)
