@@ -56,23 +56,32 @@ func (my *AuthController) PostLogin() {
 
 func (my *AuthController) Get() mvc.View {
 
-
 	var result []datamodels.Tree
 	my.DB.Find(&result)
 
-	var all []*units.List
+	nodeList := make([]units.List, 0, 10)
 
-	units.Recursive(result, 0, all)
+	fmt.Printf("addr of osa:%p  nodeList:%v", nodeList, nodeList)
+	fmt.Println()
 
-	fmt.Println(all)
+	units.Recursive(result, 0, nodeList)
 
-	//m := make(map[string]string)
-	//m["a"] = ""
+	fmt.Printf("addr of osa:%p  nodeList:%v", nodeList, nodeList)
+	fmt.Println()
+
+	//for _, val := range nodeList {
 	//
-	//for _, v := range m {
-	//
+	//	fmt.Printf("%v", val.Title)
+	//	fmt.Println()
+	//	temp := *val.Child
+	//	for _, val2 := range temp {
+	//		fmt.Printf("%v", val2.Title)
+	//		fmt.Println()
+	//	}
 	//}
-	//make()
+	//units.SolvePointer(&nodeList)
+
+	//fmt.Println(iris.Map{"Tree": result})
 
 	return mvc.View{
 		Name: "admin/index.html",

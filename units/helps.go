@@ -2,10 +2,9 @@ package units
 
 import (
 	"go-trial/datamodels"
-	"log"
+	//"fmt"
+	"fmt"
 )
-
-
 
 //$trees = [
 //[
@@ -62,31 +61,61 @@ import (
 //dump($results);
 
 type List struct {
+	Id       int
 	Title    string
 	ParentId int
-	Id       int
-	Child    []*List
+	Child    []List
 }
 
-func Recursive(Trees []datamodels.Tree, parentId int, nodeList []*List) {
+//func Recursive(Trees []datamodels.Tree, parentId int, nodeList *[]List) {
+//
+//	for _, val := range Trees {
+//
+//		if parentId == val.ParentId {
+//
+//			temp := make([]List, 0)
+//
+//			child := List{Id: val.Id, Title: val.Title, ParentId: val.ParentId, Child: &temp}
+//
+//			*nodeList = append(*nodeList, child)
+//
+//			fmt.Printf("addr of osa:%p,\taddr:%p \t content:%v\n", nodeList, nodeList, nodeList)
+//
+//			Recursive(Trees, val.Id, &temp)
+//
+//		}
+//	}
+//}
 
-	defer func() {
-		if err := recover(); err != nil {
-			log.Printf("run time panic: %v", err)
-		}
-	}()
 
-	i:=0
+
+func Recursive(Trees []datamodels.Tree, parentId int, nodeList []List) {
+
 	for _, val := range Trees {
 
 		if parentId == val.ParentId {
 
-			child := List{ParentId: val.ParentId, Id: val.Id, Child: []*List{}}
+			temp := make([]List, 0)
 
-			nodeList = append(nodeList, &child)
+			child := List{Id: val.Id, Title: val.Title, ParentId: val.ParentId, Child: temp}
 
-			Recursive(Trees, val.ParentId, nodeList[i].Child)
-			i++
+			nodeList = append(nodeList, child)
+			fmt.Printf("addr of osa:%p  nodeList:%v", nodeList,  nodeList)
+			fmt.Println()
+			//
+			//Recursive(Trees, val.Id, temp)
+
 		}
 	}
 }
+
+
+//func SolvePointer(nodeList *[]List) {
+//	temp := *nodeList
+//
+//	for _, val := range temp {
+//		if len(*val.Child) > 1 {
+//			SolvePointer(val.Child)
+//		}
+//	}
+//}
