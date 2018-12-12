@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"go-trial/datamodels"
 	"go-trial/services"
+	//"go-trial/units"
 	"go-trial/units"
+	//"encoding/json"
 )
 
 type AuthController struct {
@@ -56,35 +58,14 @@ func (my *AuthController) PostLogin() {
 
 func (my *AuthController) Get() mvc.View {
 
-	var result []datamodels.Tree
+	var result []*datamodels.Tree
+
 	my.DB.Find(&result)
 
-	nodeList := make([]units.List, 0)
-
-	//fmt.Printf("addr of osa:%p  nodeList:%v", nodeList, nodeList)
-	//fmt.Println()
-
-	units.Recursive(result, 0, &nodeList)
-
-	fmt.Printf("addr of osa:%p  nodeList:%v", nodeList, nodeList)
-	fmt.Println()
-
-	//for _, val := range nodeList {
-	//
-	//	fmt.Printf("%v", val.Title)
-	//	fmt.Println()
-	//	temp := *val.Child
-	//	for _, val2 := range temp {
-	//		fmt.Printf("%v", val2.Title)
-	//		fmt.Println()
-	//	}
-	//}
-	//units.SolvePointer(&nodeList)
-
-	//fmt.Println(iris.Map{"Tree": result})
-
+	data := units.BuildData(result)
+	deepResult := units.MakeTreeCore(0, data)
 	return mvc.View{
 		Name: "admin/index.html",
-		Data: iris.Map{"Tree": result},
+		Data: iris.Map{"Tree": deepResult},
 	}
 }

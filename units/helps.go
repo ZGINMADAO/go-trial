@@ -2,118 +2,43 @@ package units
 
 import (
 	"go-trial/datamodels"
-	//"fmt"
+	"encoding/json"
 	"fmt"
 )
 
-//$trees = [
-//[
-//'id' => 1,
-//'parent_id' => 0,
-//'title' => '安徽'
-//    ],
-//[
-//'id' => 2,
-//'parent_id' => 1,
-//'title' => '阜阳'
-//    ],
-//
-//[
-//'id' => 3,
-//'parent_id' => 0,
-//'title' => '浙江'
-//    ],
-//[
-//'id' => 4,
-//'parent_id' => 1,
-//'title' => '合肥'
-//    ],
-//[
-//'id' => 5,
-//'parent_id' => 2,
-//'title' => '阜南'
-//    ]
-//];
-//
-//function dump($data)
-//{
-//echo '<pre>';
-//var_dump($data);
-//echo '</pre>';
-//
-//}
-//
-//$deep = function ($parentId, &$results) use (&$deep, &$trees) {
-//foreach ($trees as $key => $tree) {
-//
-//if ($tree['parent_id'] === $parentId) {
-//
-//$results[$key] = $tree;
-//$results[$key]['child'] = [];
-//$deep($tree['id'], $results[$key]['child']);
-//}
-//}
-//};
-//
-//$results = [];
-//$deep(0, $results);
-//
-//dump($results);
+func Tree(list []*datamodels.Tree) string {
+	data := BuildData(list)
+	result := MakeTreeCore(0, data)
 
-type List struct {
-	Id       int
-	Title    string
-	ParentId int
-	Child    []List
-}
+	fmt.Println("tree打印", result)
 
-//func Recursive(Trees []datamodels.Tree, parentId int, nodeList *[]List) {
-//
-//	for _, val := range Trees {
-//
-//		if parentId == val.ParentId {
-//
-//			temp := make([]List, 0)
-//
-//			child := List{Id: val.Id, Title: val.Title, ParentId: val.ParentId, Child: &temp}
-//
-//			*nodeList = append(*nodeList, child)
-//
-//			fmt.Printf("addr of osa:%p,\taddr:%p \t content:%v\n", nodeList, nodeList, nodeList)
-//
-//			Recursive(Trees, val.Id, &temp)
-//
-//		}
-//	}
-//}
-
-func Recursive(Trees []datamodels.Tree, parentId int, nodeList *[]List) {
-
-	for _, val := range Trees {
-
-		if parentId == val.ParentId {
-
-			temp := make([]List, 0)
-
-			fmt.Printf("%p\n",&temp)
-
-			child := List{Id: val.Id, Title: val.Title, ParentId: val.ParentId, Child: temp}
-
-			*nodeList = append(*nodeList, child)
-
-			fmt.Printf("addr of %p,content:%v\n", nodeList, nodeList)
-			Recursive(Trees, val.Id, &temp)
-
-		}
+	body, err := json.Marshal(result)
+	if err != nil {
+		fmt.Println(err)
 	}
+	return string(body)
 }
 
-//func SolvePointer(nodeList *[]List) {
-//	temp := *nodeList
-//
-//	for _, val := range temp {
-//		if len(*val.Child) > 1 {
-//			SolvePointer(val.Child)
-//		}
-//	}
-//}
+func BuildData(list []*datamodels.Tree) map[int]map[int]*datamodels.Tree {
+	var data = make(map[int]map[int]*datamodels.Tree)
+	for _, v := range list {
+		id := v.Id
+		fid := v.ParentId
+		if _, ok := data[fid]; !ok {
+			data[fid] = make(map[int]*datamodels.Tree)
+		}
+		data[fid][id] = v
+	}
+	return data
+}
+
+func MakeTreeCore(index int, data map[int]map[int]*datamodels.Tree) []*datamodels.Tree {
+	tmp := make([]*datamodels.Tree, 0)
+	for id, item := range data[index] {
+		if data[id] != nil {
+			item.Children = MakeTreeCore(id, data)
+		}
+		tmp = append(tmp, item)
+	}
+	return tmp
+}

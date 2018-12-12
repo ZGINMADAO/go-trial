@@ -7,8 +7,9 @@ type Tree struct {
 	Title     string    `xorm:"title char(50) notnull"`
 	Path      string    `xorm:"varchar(500)"`
 	Icon      string    `xorm:"char(50)"`
-	ParentId  int     `xorm:"int"`
+	ParentId  int       `xorm:"int"`
 	CreatedAt time.Time `xorm:"datetime created"`
 	UpdatedAt time.Time `xorm:"datetime updated"`
 	DeletedAt time.Time `xorm:"datetime deleted"`
+	Children  []*Tree   `xorm:"-"`
 }
