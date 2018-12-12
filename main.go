@@ -11,7 +11,6 @@ import (
 var DB *xorm.Engine
 
 func main() {
-
 	DB = datasource.Instance()
 
 	app := iris.New()
@@ -46,7 +45,8 @@ func AdminMvc(app *mvc.Application) {
 
 	app.Register(DB)
 
-	app.Handle(new(controllers.AuthController))
+	app.Party("/auth").Handle(new(controllers.AuthController))
+	app.Party("/product").Handle(new(controllers.ProductController))
 }
 
 func HomeMvc(app *mvc.Application) {
