@@ -6,7 +6,6 @@ import (
 	"go-trial/web/controllers"
 	"go-trial/datasource"
 	"github.com/go-xorm/xorm"
-	"go-trial/datamodels"
 )
 
 var DB *xorm.Engine
@@ -30,9 +29,6 @@ func main() {
 	app.StaticWeb("/public", "./web/public")
 
 	tpl := iris.HTML("./web/views", ".html").Reload(true)
-	tpl.AddFunc("len", func(s []*datamodels.Tree) int {
-		return len(s)
-	})
 	app.RegisterView(tpl)
 
 	mvc.Configure(app.Party("/admin"), AdminMvc)
