@@ -70,12 +70,17 @@
                     {{/*</div>*/}}
                         <div class="col-sm-3">
                             <div class="input-group">
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control" name="keyWord" id="keyWord">
+                                <input type="text" placeholder="请输入关键词" class="input-sm form-control" name="keyWord"
+                                       id="keyWord">
                                 <span
                                         class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary"
-                                                onclick="reQuery()"> 搜索</button> </span>
+                                                onclick="refresh()"> 搜索</button> </span>
                             </div>
+                        </div>
+
+                        <div class="col-sm-2 pull-right" style="text-align: right">
+                            <button type="button" class="btn btn-md btn-primary" id="addBtn"> 添加</button>
                         </div>
                     </form>
                     <div class="table-responsive">
@@ -90,6 +95,8 @@
 
     </div>
 </div>
+
+
 <script src="/public/js/jquery.min.js?v=2.1.4"></script>
 <script src="/public/js/bootstrap.min.js?v=3.3.6"></script>
 <script src="/public/js/content.min.js?v=1.0.0"></script>
@@ -99,6 +106,7 @@
 <script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
 <script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 
+<script src="/public/js/plugins/layer-v3.1.1/layer/layer.js"></script>
 <script src="/public/js/plugins/iCheck/icheck.min.js"></script>
 
 <script>
@@ -129,15 +137,85 @@
 
             {title: '序号', field: 'Id', align: 'center', valign: 'middle'},
             {title: '名称', field: 'Title', align: 'center', valign: 'middle'},
+            {title: '图片', field: 'Image', align: 'center', valign: 'middle'},
             {title: '创建时间', field: 'CreatedAt', align: 'center', valign: 'middle'},
         ]
 
     });
 
-
-    function reQuery() {
+    function refresh() {
         $('#table').bootstrapTable('refresh');
     }
+
+
+    var addHtml = '<div class="ibox float-e-margins">' +
+            '        <div class="ibox-content" style="height: 100px">' +
+            '            <form class="form-horizontal" id="addForm">' +
+            '                <div class="form-group">' +
+            '                    <label class="col-sm-3 control-label">名称：</label>' +
+            '                    <div class="col-sm-8">' +
+            '                        <input type="text" placeholder="请输入名称" class="form-control" name="title">' +
+            '                    </div>' +
+            '                </div>' +
+            '                <div class="form-group">' +
+            '                    <label class="col-sm-3 control-label">图片：</label>' +
+            '                    <div class="col-sm-8">' +
+            '                        <input type="text" placeholder="请输入图片" class="form-control" name="image">' +
+            '                    </div>' +
+            '                </div>' +
+            '                <div class="form-group">' +
+            '                    <div class="col-sm-offset-3 col-sm-8">\n' +
+            '                        <button class="btn btn-md btn-success" type="button" id="addYes">确定</button>' +
+            '                    </div>' +
+            '                </div>' +
+            '            </form>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>';
+
+    var layerIndex;
+    $(document).on('click', '#addBtn', function () {
+        layerIndex = layer.open({
+            type: 1,
+            closeBtn: 1,
+            shadeClose: true,
+            title: '添加商品种类',
+            area: ['40%', '30%'],
+            content: addHtml
+        });
+    });
+
+    function getFormObj(formId) {
+        var data = {};
+        var formVal = $(formId).serializeArray();
+        var temp = {};
+        $.each(formVal, function (inx, val) {
+            temp[val.name] = val.value;
+            $.extend(data, temp);
+        });
+        return data;
+    }
+
+    $(document).on('click', '#addYes', function () {
+
+        $.ajax({
+            type: 'post',
+            url: '/admin/product/type',
+            data: getFormObj("#addForm"),
+            success: function (result) {
+                if (result.status === true) {
+                    layer.close(layerIndex);
+                    layer.msg(result.message, {icon: 6, time: 3000});
+                    refresh();
+                } else {
+                    layer.alert(result.message, {icon: 5});
+                }
+            },
+            error: function () {
+                layer.alert('异步请求失败');
+            }
+        });
+    });
 </script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 </body>
