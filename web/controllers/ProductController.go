@@ -5,6 +5,7 @@ import (
 	"github.com/kataras/iris"
 	"go-trial/datamodels"
 	"fmt"
+	"go-trial/units"
 )
 
 type ProductController struct {
@@ -19,10 +20,10 @@ func (my *ProductController) GetType() mvc.View {
 }
 
 func (my *ProductController) GetTypeList() {
-
-	const SIZE = 2
 	page, _ := my.Ctx.URLParamInt("page")
+	size, _ := my.Ctx.URLParamInt("pageSize")
 	keyWord := my.Ctx.URLParam("keyWord")
+
 	if page < 1 {
 		page = 1
 	}
@@ -36,16 +37,24 @@ func (my *ProductController) GetTypeList() {
 
 	countBuild := *build
 
-	build.Limit(SIZE, (page-1)*SIZE).Desc("Id").Find(&product)
+	build.Limit(size, (page-1)*size).Desc("Id").Find(&product)
 	total, _ := (&countBuild).Count(new(datamodels.Product))
 
-	s1 := make([]datamodels.Product, 0)
-	if product == nil {
-		product = s1
+	type result struct {
+		datamodels.Product
+		CreatedAt string
+	}
+	results := make([]result, len(product))
+	for inx, val := range product {
+		results[inx].CreatedAt = val.CreatedAt.Format(units.CnFormat)
+		results[inx].Id = val.Id
+		results[inx].Title = val.Title
+		results[inx].Image = val.Image
 	}
 
+
 	fmt.Println(product)
-	my.Ctx.JSON(iris.Map{"rows": product, "total": total})
+	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
 
 func (my *ProductController) PostType() {
