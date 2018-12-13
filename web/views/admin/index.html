@@ -62,7 +62,7 @@
             {{range .Tree}}
                 <li>
                 {{$childLen:= .Children|len}}
-                    <a class="J_menuItem" href="layouts.html">
+                    <a  {{if eq $childLen 0}}class="J_menuItem"{{end}} href="layouts.html">
                         <i class="fa {{.Icon}}"></i>
                         <span class="nav-label">{{.Title}}</span>
 
@@ -215,7 +215,7 @@
             <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
         </div>
         <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index_v148b2.html?v=4.0"
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/admin/mailbox"
                     frameborder="0" data-id="index_v1.html" seamless></iframe>
         </div>
         <div class="footer">

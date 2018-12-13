@@ -44,7 +44,9 @@ func AdminMvc(app *mvc.Application) {
 	})
 
 	app.Register(DB)
-
+	app.Router.Get("/mailbox", func(ctx iris.Context) {
+		ctx.View("admin/mailbox.html")
+	})
 	app.Party("/auth").Handle(new(controllers.AuthController))
 	app.Party("/product").Handle(new(controllers.ProductController))
 }
