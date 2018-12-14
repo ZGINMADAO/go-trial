@@ -49,7 +49,7 @@ func (my *AuthController) PostLogin() {
 		if ok == true {
 			my.Ctx.JSON(iris.Map{"status": true, "data": nil, "message": "登录成功"})
 		} else {
-			my.Ctx.JSON(apiResource(false, nil, "登录失败"))
+			my.Ctx.JSON(apiResource(false, nil, "登录失败?"))
 		}
 	}
 }

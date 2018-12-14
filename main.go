@@ -49,6 +49,7 @@ func AdminMvc(app *mvc.Application) {
 	})
 	app.Party("/auth").Handle(new(controllers.AuthController))
 	app.Party("/product").Handle(new(controllers.ProductController))
+	app.Party("/tool").Handle(new(controllers.ToolController))
 }
 
 func HomeMvc(app *mvc.Application) {

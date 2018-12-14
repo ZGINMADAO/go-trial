@@ -6,16 +6,30 @@ import (
 	"go-trial/datamodels"
 	"fmt"
 	"go-trial/units"
+	"go-trial/services"
 )
 
 type ProductController struct {
 	BaseController
 }
 
+func (my *ProductController) Get() mvc.View {
+	return mvc.View{
+		Name: "admin/product/lists.html",
+	}
+}
+
+func (my *ProductController) GetList() {
+
+	service := services.NewProduct()
+	var requestData = make(map[string]string)
+	total, results := service.ProductWithType(my.DB, requestData)
+	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
+}
+
 func (my *ProductController) GetType() mvc.View {
 	return mvc.View{
 		Name: "admin/product/type-lists.html",
-		Data: iris.Map{"url": "/admin/login"},
 	}
 }
 
@@ -28,7 +42,7 @@ func (my *ProductController) GetTypeList() {
 		page = 1
 	}
 
-	var product []datamodels.Product
+	var productType []datamodels.ProductType
 	build := my.DB.Where("")
 	if len(keyWord) > 0 {
 		fmt.Println(keyWord)
@@ -37,23 +51,20 @@ func (my *ProductController) GetTypeList() {
 
 	countBuild := *build
 
-	build.Limit(size, (page-1)*size).Desc("Id").Find(&product)
-	total, _ := (&countBuild).Count(new(datamodels.Product))
+	build.Limit(size, (page-1)*size).Desc("Id").Find(&productType)
+	total, _ := (&countBuild).Count(new(datamodels.ProductType))
 
 	type result struct {
 		datamodels.Product
 		CreatedAt string
 	}
-	results := make([]result, len(product))
-	for inx, val := range product {
+	results := make([]result, len(productType))
+	for inx, val := range productType {
 		results[inx].CreatedAt = val.CreatedAt.Format(units.CnFormat)
 		results[inx].Id = val.Id
 		results[inx].Title = val.Title
 		results[inx].Image = val.Image
 	}
-
-
-	fmt.Println(product)
 	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
 
@@ -67,11 +78,10 @@ func (my *ProductController) PostType() {
 		my.Ctx.JSON(apiResource(false, nil, "名称和图片不能为空"))
 		return
 	}
-	var product datamodels.Product
-	product.Title = title
-	product.Image = image
-	my.DB.Insert(&product)
-	fmt.Println(product)
+	var productType datamodels.ProductType
+	productType.Title = title
+	productType.Image = image
+	my.DB.Insert(&productType)
 	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
 }
 
@@ -84,10 +94,10 @@ func (my *ProductController) PutTypeBy(id int) {
 		my.Ctx.JSON(apiResource(false, nil, "名称和图片不能为空"))
 		return
 	}
-	product := new(datamodels.Product)
-	product.Title = title
-	product.Image = image
-	affected, _ := my.DB.Id(id).Update(product)
+	productType := new(datamodels.ProductType)
+	productType.Title = title
+	productType.Image = image
+	affected, _ := my.DB.Id(id).Update(productType)
 	if affected < 1 {
 		my.Ctx.JSON(apiResource(false, nil, "删除失败"))
 		return
@@ -96,8 +106,8 @@ func (my *ProductController) PutTypeBy(id int) {
 }
 
 func (my *ProductController) DeleteTypeBy(id int) {
-	product := new(datamodels.Product)
-	affected, _ := my.DB.Id(id).Delete(product)
+	productType := new(datamodels.ProductType)
+	affected, _ := my.DB.Id(id).Delete(productType)
 	if affected < 1 {
 		my.Ctx.JSON(apiResource(false, nil, "删除失败"))
 		return
