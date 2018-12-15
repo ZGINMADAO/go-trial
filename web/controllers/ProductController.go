@@ -22,13 +22,38 @@ func (my *ProductController) Get() mvc.View {
 func (my *ProductController) GetList() {
 
 	service := services.NewProduct()
+
+	page := my.Ctx.URLParam("page")
+	size := my.Ctx.URLParam("size")
+	keyWord := my.Ctx.URLParam("keyWord")
 	var requestData = make(map[string]string)
-
-
-
-
+	requestData["KeyWord"] = keyWord
+	requestData["Size"] = size
+	requestData["Page"] = page
 	total, results := service.ProductWithType(my.DB, requestData)
 	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
+}
+
+func (my *ProductController) GetEdit() mvc.View {
+
+	var productTypes []datamodels.ProductType
+
+	my.DB.Find(&productTypes)
+
+	return mvc.View{
+		Name: "admin/product/edit.html",
+		Data: map[string][]datamodels.ProductType{"ProductTypes": productTypes},
+	}
+}
+
+func (my *ProductController) Post() {
+	service := services.NewProduct()
+	result := service.Request(my.Ctx)
+	my.DB.Insert(result)
+}
+
+func (my *ProductController) Put() {
+
 }
 
 func (my *ProductController) GetType() mvc.View {

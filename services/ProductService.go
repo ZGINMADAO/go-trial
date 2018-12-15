@@ -5,10 +5,13 @@ import (
 	"go-trial/units"
 	"go-trial/datamodels"
 	"strconv"
+	"fmt"
+	"github.com/kataras/iris"
 )
 
 type ProductService interface {
 	ProductWithType(*xorm.Engine, map[string]string) (int64, []result)
+	Request(context iris.Context) *datamodels.Product
 }
 type productService struct {
 }
@@ -25,16 +28,19 @@ type result struct {
 
 func (my *productService) ProductWithType(DB *xorm.Engine, requestData map[string]string) (int64, []result) {
 
+	fmt.Println(requestData)
 	var product []datamodels.Product
 	build := DB.Where("")
 
-	if requestData["Title"] != "" {
-		build = DB.Where("title like ?", "%"+requestData["Title"]+"%")
+	if requestData["KeyWord"] != "" {
+		build = DB.Where("title like ?", "%"+requestData["KeyWord"]+"%")
 	}
 
 	countBuild := *build
+
 	size, _ := strconv.Atoi(requestData["Size"])
 	page, _ := strconv.Atoi(requestData["Page"])
+
 	build.Limit(size, (page-1)*size).Desc("Id").Find(&product)
 	total, _ := (&countBuild).Count(new(datamodels.Product))
 
@@ -62,4 +68,10 @@ func (my *productService) ProductWithType(DB *xorm.Engine, requestData map[strin
 	}
 
 	return total, results
+}
+
+func (my *productService) Request(ctx iris.Context) *datamodels.Product {
+	requestData := new(datamodels.Product)
+	ctx.ReadForm(requestData)
+	return requestData
 }

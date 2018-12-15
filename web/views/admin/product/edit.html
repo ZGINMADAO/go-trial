@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 基本表单</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/public/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/public/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/public/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/public/css/animate.min.css" rel="stylesheet">
+    <link href="/public/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form method="get" class="form-horizontal" id="saveForm">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">分类</label>
+                            <div class="col-sm-10">
+                                <select class="form-control m-b" name="typeId">
+                                    <option value="0">请选择</option>
+                                {{range .ProductTypes}}
+                                    <option value="{{.Id}}">{{.Title}}</option>
+                                {{end}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">名称</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="title">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">价格</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="price">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库存</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="stock">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图片</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="image">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">详情</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="detail">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="button" id="saveBtn">保存</button>
+                                <button class="btn btn-white" type="button">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/public/js/jquery.min.js?v=2.1.4"></script>
+<script src="/public/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/public/js/tools/tips.js"></script>
+
+<script>
+    $(document).on('click', '#saveBtn', function () {
+        var formVal = tips.getFormValus("#saveForm");
+        console.log(formVal);
+        $.ajax({
+            type: 'post',
+            url: '/admin/product',
+            data: formVal,
+            success: function (result) {
+                if (result.status === true) {
+                    layer.msg(result.message, {icon: 6});
+                } else {
+                    layer.alert(result.message, {icon: 5});
+                }
+            },
+            error: function () {
+                layer.alert("异步请求失败", {icon: 5});
+            }
+        });
+
+    });
+</script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>
