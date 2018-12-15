@@ -23,6 +23,10 @@ func (my *ProductController) GetList() {
 
 	service := services.NewProduct()
 	var requestData = make(map[string]string)
+
+
+
+
 	total, results := service.ProductWithType(my.DB, requestData)
 	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
