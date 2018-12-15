@@ -8,12 +8,11 @@ import (
 	"log"
 )
 
-
 func Instance() *xorm.Engine {
 	db := config.Db
 	driveSource := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8",
 		db.User, db.Pass, db.Host, db.Port, db.Name)
-	engine, err := xorm.NewEngine(config.DriverName, driveSource)
+	engine, err := xorm.NewEngine(db.Driver, driveSource)
 	if err != nil {
 		log.Fatal("dbhelper.DbInstance,", err)
 		return nil

@@ -1,19 +1,33 @@
 package config
 
-const DriverName = "mysql"
+import (
+	"github.com/joho/godotenv"
+	"log"
+	"os"
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+}
 
 type Database struct {
-	Host string
-	Port int
-	User string
-	Pass string
-	Name string
+	Driver string
+	Host   string
+	Port   string
+	User   string
+	Pass   string
+	Name   string
 }
 
 var Db = Database{
-	Host: "106.12.16.28",
-	Port: 3306,
-	User: "root",
-	Pass: "root",
-	Name: "go-trial",
+	Driver: os.Getenv("DB_CONNECTION"),
+	Host:   os.Getenv("DB_HOST"),
+	Port:   os.Getenv("DB_PORT"),
+	User:   os.Getenv("DB_USERNAME"),
+	Pass:   os.Getenv("DB_PASSWORD"),
+	Name:   os.Getenv("DB_DATABASE"),
 }

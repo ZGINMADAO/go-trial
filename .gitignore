@@ -1,4 +1,4 @@
 /vendor
 /.idea
 /web/public/uploads
-/config
+/.env
