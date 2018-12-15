@@ -13,3 +13,7 @@ type Tree struct {
 	DeletedAt time.Time `xorm:"datetime deleted"`
 	Children  []*Tree   `xorm:"-"`
 }
+
+func (_ *Tree) TableName() string {
+	return "tree"
+}
