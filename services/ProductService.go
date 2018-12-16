@@ -80,14 +80,14 @@ func (my *productService) Request(ctx iris.Context) (*datamodels.Product, error)
 	}
 
 	if requestData.Title == "" {
-
+		return requestData,errors.New("")
 	}
 
 	if requestData.Price < 0 {
-
+		return requestData,errors.New("")
 	}
 	if requestData.Stock < 0 {
-
+		return requestData,errors.New("")
 	}
 	return requestData, nil
 }

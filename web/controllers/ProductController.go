@@ -48,8 +48,13 @@ func (my *ProductController) GetEdit() mvc.View {
 
 func (my *ProductController) Post() {
 	service := services.NewProduct()
-	result := service.Request(my.Ctx)
+	result, err := service.Request(my.Ctx)
+	if err != nil {
+		my.Ctx.JSON(apiResource(false, nil, err.Error()))
+		return
+	}
 	my.DB.Insert(result)
+	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
 }
 
 func (my *ProductController) Put() {
