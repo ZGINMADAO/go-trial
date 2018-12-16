@@ -57,8 +57,15 @@ func (my *ProductController) Post() {
 	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
 }
 
-func (my *ProductController) Put() {
-
+func (my *ProductController) PutBy(id int) {
+	service := services.NewProduct()
+	result, err := service.Request(my.Ctx)
+	if err != nil {
+		my.Ctx.JSON(apiResource(false, nil, err.Error()))
+		return
+	}
+	my.DB.ID(id).Update(result)
+	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
 }
 
 func (my *ProductController) GetType() mvc.View {
