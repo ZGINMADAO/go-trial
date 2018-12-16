@@ -7,11 +7,12 @@ import (
 	"strconv"
 	"fmt"
 	"github.com/kataras/iris"
+	"errors"
 )
 
 type ProductService interface {
 	ProductWithType(*xorm.Engine, map[string]string) (int64, []result)
-	Request(context iris.Context) *datamodels.Product
+	Request(context iris.Context) (*datamodels.Product, error)
 }
 type productService struct {
 }
@@ -70,8 +71,23 @@ func (my *productService) ProductWithType(DB *xorm.Engine, requestData map[strin
 	return total, results
 }
 
-func (my *productService) Request(ctx iris.Context) *datamodels.Product {
+func (my *productService) Request(ctx iris.Context) (*datamodels.Product, error) {
 	requestData := new(datamodels.Product)
 	ctx.ReadForm(requestData)
-	return requestData
+
+	if requestData.TypeId < 0 {
+		return requestData,errors.New("")
+	}
+
+	if requestData.Title == "" {
+
+	}
+
+	if requestData.Price < 0 {
+
+	}
+	if requestData.Stock < 0 {
+
+	}
+	return requestData, nil
 }
