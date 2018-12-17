@@ -7,14 +7,20 @@ import (
 	"go-trial/datamodels"
 	"go-trial/services"
 	"go-trial/units"
+	"github.com/kataras/iris/sessions"
+	"time"
 )
 
 type AuthController struct {
 	ApiJson
 	BaseController
+	Session *sessions.Session
+	StartTime time.Time
 }
 
-func (_ *AuthController) GetLogin() mvc.View {
+func (my *AuthController) GetLogin() mvc.View {
+
+	my.Session.Set("test", 1)
 	return mvc.View{
 		Name: "admin/login.html",
 		Data: iris.Map{"url": "/admin/login"},
@@ -55,6 +61,9 @@ func (my *AuthController) PostLogin() {
 }
 
 func (my *AuthController) Get() mvc.View {
+
+	fmt.Println(my.Session.Get("test"))
+	fmt.Println("session value")
 
 	var result []datamodels.Tree
 

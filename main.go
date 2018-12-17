@@ -6,11 +6,23 @@ import (
 	"go-trial/web/controllers"
 	"go-trial/datasource"
 	"github.com/go-xorm/xorm"
+	"go-trial/web/middleware"
+	"github.com/kataras/iris/sessions"
+	"time"
 )
 
 var DB *xorm.Engine
 
+var SessionManage *sessions.Sessions
+
 func main() {
+
+	SessionManage = sessions.New(sessions.Config{
+		Cookie:       "site_session_id",
+		Expires:      60 * time.Minute,
+		AllowReclaim: true,
+	})
+
 	DB = datasource.Instance()
 
 	app := iris.New()
@@ -50,6 +62,7 @@ func main() {
 	//	app.ContextPool.Release(ctx)
 	//})
 
+	app.Use(middleware.BasicAuth)
 	mvc.Configure(app.Party("/admin"), AdminMvc)
 	mvc.Configure(app.Party("/home"), HomeMvc)
 	mvc.Configure(app.Party("/test"), TestMvc)
@@ -64,10 +77,10 @@ func AdminMvc(app *mvc.Application) {
 	})
 
 	app.Register(DB)
-	app.Router.Get("/mailbox", func(ctx iris.Context) {
-		ctx.View("admin/mailbox.html")
-	})
-	app.Party("/auth").Handle(new(controllers.AuthController))
+	//app.Router.Get("/mailbox", func(ctx iris.Context) {
+	//	ctx.View("admin/mailbox.html")
+	//})
+	app.Party("/auth").Register(SessionManage.Start, time.Now()).Handle(new(controllers.AuthController))
 	app.Party("/product").Handle(new(controllers.ProductController))
 	app.Party("/tool").Handle(new(controllers.ToolController))
 }
