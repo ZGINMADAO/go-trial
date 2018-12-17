@@ -30,6 +30,26 @@ func main() {
 	tpl := iris.HTML("./web/views", ".html").Reload(true)
 	app.RegisterView(tpl)
 
+	//fileServer := app.StaticHandler("./web/public", false, false)
+	//app.WrapRouter(func(w http.ResponseWriter, r *http.Request, router http.HandlerFunc) {
+	//	path := r.URL.Path
+	//	fmt.Println(path)
+	//	//请注意，如果path的后缀为“index.html”，则会自动重定向到“/”，
+	//	//所以我们的第一个处理程序将被执行。
+	//	if !strings.Contains(path, ".") {
+	//		//如果它不是资源，那么就像正常情况一样继续使用路由器. <-- IMPORTANT
+	//		router(w, r)
+	//		return
+	//	}
+	//
+	//	fmt.Println("is here")
+	//	//获取并释放上下文，以便使用它来执行我们的文件服务器
+	//	//记得：我们使用net / http.Handler，因为我们在路由器本身之前处于“低级别”。
+	//	ctx := app.ContextPool.Acquire(w, r)
+	//	fileServer(ctx)
+	//	app.ContextPool.Release(ctx)
+	//})
+
 	mvc.Configure(app.Party("/admin"), AdminMvc)
 	mvc.Configure(app.Party("/home"), HomeMvc)
 	mvc.Configure(app.Party("/test"), TestMvc)
