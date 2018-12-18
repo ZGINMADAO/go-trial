@@ -66,7 +66,6 @@ func main() {
 
 	//app.Use(middleware.BasicAuth)
 	mvc.Configure(app.Party("/admin"), AdminMvc)
-	mvc.Configure(app.Party("/home"), HomeMvc)
 	mvc.Configure(app.Party("/test"), TestMvc)
 	app.Run(iris.Addr("0.0.0.0:8080"))
 }
@@ -93,13 +92,7 @@ func AdminMvc(app *mvc.Application) {
 	app.Party("/tool").Handle(new(controllers.ToolController))
 }
 
-func HomeMvc(app *mvc.Application) {
-	app.Router.Use(func(ctx iris.Context) {
-		ctx.Application().Logger().Infof("Home Path: %s", ctx.Path())
-		ctx.Next()
-	})
-	app.Handle(new(controllers.UserController))
-}
+
 
 func TestMvc(app *mvc.Application) {
 	app.Router.Use(func(ctx iris.Context) {

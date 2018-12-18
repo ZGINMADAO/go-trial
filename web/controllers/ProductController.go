@@ -50,22 +50,22 @@ func (my *ProductController) Post() {
 	service := services.NewProduct()
 	result, err := service.Request(my.Ctx)
 	if err != nil {
-		my.Ctx.JSON(apiResource(false, nil, err.Error()))
+		my.ReturnJson(false, nil, err.Error())
 		return
 	}
 	my.DB.Insert(result)
-	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
+	my.ReturnJson(true, nil, "操作成功")
 }
 
 func (my *ProductController) PutBy(id int) {
 	service := services.NewProduct()
 	result, err := service.Request(my.Ctx)
 	if err != nil {
-		my.Ctx.JSON(apiResource(false, nil, err.Error()))
+		my.ReturnJson(false, nil, err.Error())
 		return
 	}
 	my.DB.ID(id).Update(result)
-	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
+	my.ReturnJson(true, nil, "操作成功")
 }
 
 func (my *ProductController) GetType() mvc.View {
@@ -116,14 +116,14 @@ func (my *ProductController) PostType() {
 
 	fmt.Println(title, image)
 	if len(title) < 1 || len(image) < 1 {
-		my.Ctx.JSON(apiResource(false, nil, "名称和图片不能为空"))
+		my.ReturnJson(false, nil, "名称和图片不能为空")
 		return
 	}
 	var productType datamodels.ProductType
 	productType.Title = title
 	productType.Image = image
 	my.DB.Insert(&productType)
-	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
+	my.ReturnJson(true, nil, "操作成功")
 }
 
 func (my *ProductController) PutTypeBy(id int) {
@@ -132,7 +132,7 @@ func (my *ProductController) PutTypeBy(id int) {
 	image := my.Ctx.PostValueTrim("image")
 
 	if len(title) < 1 || len(image) < 1 {
-		my.Ctx.JSON(apiResource(false, nil, "名称和图片不能为空"))
+		my.ReturnJson(false, nil, "名称和图片不能为空")
 		return
 	}
 	productType := new(datamodels.ProductType)
@@ -140,18 +140,18 @@ func (my *ProductController) PutTypeBy(id int) {
 	productType.Image = image
 	affected, _ := my.DB.Id(id).Update(productType)
 	if affected < 1 {
-		my.Ctx.JSON(apiResource(false, nil, "删除失败"))
+		my.ReturnJson(false, nil, "删除失败")
 		return
 	}
-	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
+	my.ReturnJson(true, nil, "操作成功")
 }
 
 func (my *ProductController) DeleteTypeBy(id int) {
 	productType := new(datamodels.ProductType)
 	affected, _ := my.DB.Id(id).Delete(productType)
 	if affected < 1 {
-		my.Ctx.JSON(apiResource(false, nil, "删除失败"))
+		my.ReturnJson(false, nil, "删除失败")
 		return
 	}
-	my.Ctx.JSON(apiResource(true, nil, "操作成功"))
+	my.ReturnJson(true, nil, "操作成功")
 }

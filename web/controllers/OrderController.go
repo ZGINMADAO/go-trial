@@ -4,24 +4,33 @@ import (
 	"net/smtp"
 	"strings"
 	"fmt"
+	"github.com/kataras/iris/mvc"
+	"github.com/kataras/iris"
+	"go-trial/services"
 )
 
 type OrderController struct {
 	BaseController
 }
 
-func (my *OrderController) Get() {
-	auth := smtp.PlainAuth("", "1287020839@qq.com", "ujpltpaenazsjcae", "smtp.qq.com")
-	to := []string{"15555124010@163.com"}
-	nickname := "ggc"
-	user := "1287020839@qq.com"
-	subject := "test mail"
-	contentType := "Content-Type: text/plain; charset=UTF-8"
-	body := "This is the email body."
-	msg := []byte("To: " + strings.Join(to, ",") + "\r\nFrom: " + nickname +
-		"<" + user + ">\r\nSubject: " + subject + "\r\n" + contentType + "\r\n\r\n" + body)
-	err := smtp.SendMail("smtp.qq.com:25", auth, user, to, msg)
-	if err != nil {
-		fmt.Printf("send mail error: %v", err)
+func (my *OrderController) Get() mvc.View {
+	return mvc.View{
+		Name: "admin/order/lists.html",
 	}
+}
+
+func (my *OrderController) GetList() {
+
+	service := services.NewOrder()
+
+	page := my.Ctx.URLParam("page")
+	size := my.Ctx.URLParam("size")
+	keyWord := my.Ctx.URLParam("keyWord")
+	var requestData = make(map[string]string)
+	requestData["KeyWord"] = keyWord
+	requestData["Size"] = size
+	requestData["Page"] = page
+	total := service.OrderList(my.DB, requestData)
+	fmt.Println(total)
+	//my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
