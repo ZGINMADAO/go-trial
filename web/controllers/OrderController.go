@@ -1,11 +1,8 @@
 package controllers
 
 import (
-	"net/smtp"
-	"strings"
 	"fmt"
 	"github.com/kataras/iris/mvc"
-	"github.com/kataras/iris"
 	"go-trial/services"
 )
 
