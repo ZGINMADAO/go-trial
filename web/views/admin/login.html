@@ -69,12 +69,12 @@
 
             $.ajax({
                 type: 'post',
-                url: '/admin/login',
+                url: '/admin/auth/login',
                 data: {username: $("#username").val(), password: $("#password").val()},
                 success: function (result) {
                     if (result.status) {
                         layer.alert(result.message, {icon: 6}, function () {
-                            window.location.href = '/admin';
+                            window.location.href = '/admin/auth';
                         });
 
                     } else {

@@ -6,9 +6,11 @@ import (
 	"go-trial/web/controllers"
 	"go-trial/datasource"
 	"github.com/go-xorm/xorm"
-	"go-trial/web/middleware"
 	"github.com/kataras/iris/sessions"
 	"time"
+	//"github.com/kataras/iris/hero"
+	"go-trial/web/middleware"
+	"github.com/kataras/iris/hero"
 )
 
 var DB *xorm.Engine
@@ -62,7 +64,7 @@ func main() {
 	//	app.ContextPool.Release(ctx)
 	//})
 
-	app.Use(middleware.BasicAuth)
+	//app.Use(middleware.BasicAuth)
 	mvc.Configure(app.Party("/admin"), AdminMvc)
 	mvc.Configure(app.Party("/home"), HomeMvc)
 	mvc.Configure(app.Party("/test"), TestMvc)
@@ -76,11 +78,17 @@ func AdminMvc(app *mvc.Application) {
 		ctx.Next()
 	})
 
-	app.Register(DB)
+	session := SessionManage.Start
+
+	hero.Register(session)
+	app.Router.Use(hero.Handler(middleware.SessionAuth))
+
+	app.Register(DB, session)
+	//app.Register(SessionManage.Start)
 	//app.Router.Get("/mailbox", func(ctx iris.Context) {
 	//	ctx.View("admin/mailbox.html")
 	//})
-	app.Party("/auth").Register(SessionManage.Start, time.Now()).Handle(new(controllers.AuthController))
+	app.Party("/auth").Handle(new(controllers.AuthController))
 	app.Party("/product").Handle(new(controllers.ProductController))
 	app.Party("/tool").Handle(new(controllers.ToolController))
 }

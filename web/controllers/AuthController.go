@@ -8,14 +8,12 @@ import (
 	"go-trial/services"
 	"go-trial/units"
 	"github.com/kataras/iris/sessions"
-	"time"
 )
 
 type AuthController struct {
 	ApiJson
 	BaseController
 	Session *sessions.Session
-	StartTime time.Time
 }
 
 func (my *AuthController) GetLogin() mvc.View {
@@ -43,6 +41,7 @@ func (my *AuthController) PostLogin() {
 
 	username := my.Ctx.PostValue("username")
 	password := my.Ctx.PostValue("password")
+
 	fmt.Printf("类型为%T,值为%v", username, username)
 	if len(username) < 5 || len(password) < 5 {
 		my.Ctx.JSON(apiResource(false, nil, "用户或密码不能少于5位"))
@@ -53,6 +52,7 @@ func (my *AuthController) PostLogin() {
 		admin.Password = password
 		ok, _ := my.DB.Get(&admin)
 		if ok == true {
+			my.Session.Set("admin_session_profile", admin)
 			my.Ctx.JSON(iris.Map{"status": true, "data": nil, "message": "登录成功"})
 		} else {
 			my.Ctx.JSON(apiResource(false, nil, "登录失败?"))
@@ -63,6 +63,7 @@ func (my *AuthController) PostLogin() {
 func (my *AuthController) Get() mvc.View {
 
 	fmt.Println(my.Session.Get("test"))
+	fmt.Println(my.Session.Get("middleware"))
 	fmt.Println("session value")
 
 	var result []datamodels.Tree
