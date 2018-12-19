@@ -11,7 +11,6 @@ import (
 )
 
 type AuthController struct {
-	ApiJson
 	BaseController
 	Session *sessions.Session
 }
@@ -44,7 +43,7 @@ func (my *AuthController) PostLogin() {
 
 	fmt.Printf("类型为%T,值为%v", username, username)
 	if len(username) < 5 || len(password) < 5 {
-		my.Ctx.JSON(apiResource(false, nil, "用户或密码不能少于5位"))
+		my.ReturnJson(false, nil, "用户或密码不能少于5位")
 	} else {
 		//apiResource(true, nil, "登录成功")
 		var admin datamodels.Admin
@@ -55,7 +54,7 @@ func (my *AuthController) PostLogin() {
 			my.Session.Set("admin_session_profile", admin)
 			my.Ctx.JSON(iris.Map{"status": true, "data": nil, "message": "登录成功"})
 		} else {
-			my.Ctx.JSON(apiResource(false, nil, "登录失败?"))
+			my.ReturnJson(false, nil, "登录失败?")
 		}
 	}
 }

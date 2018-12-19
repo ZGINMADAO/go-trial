@@ -90,9 +90,9 @@ func AdminMvc(app *mvc.Application) {
 	app.Party("/auth").Handle(new(controllers.AuthController))
 	app.Party("/product").Handle(new(controllers.ProductController))
 	app.Party("/tool").Handle(new(controllers.ToolController))
+	app.Party("/order").Handle(new(controllers.OrderController))
+	app.Party("/system").Handle(new(controllers.SystemController))
 }
-
-
 
 func TestMvc(app *mvc.Application) {
 	app.Router.Use(func(ctx iris.Context) {

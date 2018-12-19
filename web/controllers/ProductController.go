@@ -149,6 +149,8 @@ func (my *ProductController) PutTypeBy(id int) {
 func (my *ProductController) DeleteTypeBy(id int) {
 	productType := new(datamodels.ProductType)
 	affected, _ := my.DB.Id(id).Delete(productType)
+
+	fmt.Println(productType)
 	if affected < 1 {
 		my.ReturnJson(false, nil, "删除失败")
 		return

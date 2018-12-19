@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/kataras/iris/mvc"
 	"go-trial/services"
+	"github.com/kataras/iris"
 )
 
 type OrderController struct {
@@ -19,7 +19,6 @@ func (my *OrderController) Get() mvc.View {
 func (my *OrderController) GetList() {
 
 	service := services.NewOrder()
-
 	page := my.Ctx.URLParam("page")
 	size := my.Ctx.URLParam("size")
 	keyWord := my.Ctx.URLParam("keyWord")
@@ -27,7 +26,6 @@ func (my *OrderController) GetList() {
 	requestData["KeyWord"] = keyWord
 	requestData["Size"] = size
 	requestData["Page"] = page
-	total := service.OrderList(my.DB, requestData)
-	fmt.Println(total)
-	//my.Ctx.JSON(iris.Map{"rows": results, "total": total})
+	total, results := service.OrderList(my.DB, requestData)
+	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
