@@ -2,7 +2,6 @@ package units
 
 import (
 	"go-trial/datamodels"
-	"github.com/kataras/iris/core/errors"
 )
 
 type List struct {
@@ -30,27 +29,20 @@ func Recursive(Trees []datamodels.Tree, parentId int, nodeList *[]List) {
 	}
 }
 
-func InArray(needle interface{}, haystack interface{}) (bool, error) {
+func IntInArray(needle int, haystack []int) bool {
 
-	switch haystack.(type) {
-	case []int:
-		temp := haystack.([]int)
-		for _, val := range temp {
-			if needle == val {
-				return true, nil
-
-			}
-			return false, nil
-		}
-	case []string:
-		temp := haystack.([]string)
-		for _, val := range temp {
-			if needle == val {
-				return true, nil
-
-			}
-			return false, nil
+	for _, val := range haystack {
+		if needle == val {
+			return true
 		}
 	}
-	return false, errors.New("请输入正确的格式")
+	return false
+}
+func StrInArray(needle string, haystack []string) bool {
+	for _, val := range haystack {
+		if needle == val {
+			return true
+		}
+	}
+	return false
 }

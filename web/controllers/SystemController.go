@@ -16,7 +16,7 @@ type SystemController struct {
 
 func (my *SystemController) GetRole() mvc.View {
 	return mvc.View{
-		Name: "admin/system/order_lists.html",
+		Name: "admin/system/role_lists.html",
 	}
 }
 
@@ -54,6 +54,8 @@ func (my *SystemController) GetRoleList() {
 	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
 
+
+
 func (my *SystemController) GetPermissions() {
 	var permissions []datamodels.Tree
 	my.DB.Find(&permissions)
@@ -63,6 +65,12 @@ func (my *SystemController) GetPermissions() {
 func (my *SystemController) PutRoleByPermissions(roleId int) {
 
 	idList := my.Ctx.PostValues("idList")
+
+	idIntList := make([]int, len(idList))
+	for key, val := range idList {
+		temp,_:=strconv.Atoi(val)
+		idIntList[key] =temp
+	}
 
 	//var role datamodels.Role
 	//ok, err := my.DB.Id(roleId).Get(&role)
@@ -85,26 +93,25 @@ func (my *SystemController) PutRoleByPermissions(roleId int) {
 
 	addData := make([]datamodels.RolePermission, 0)
 
-	for _, val := range idList {
-		isIn, _ := units.InArray(val, permissionIds)
+	for _, val := range idIntList {
+		isIn:= units.IntInArray(val, permissionIds)
 		if !isIn {
-			temp, _ := strconv.Atoi(val)
-			addData = append(addData, datamodels.RolePermission{RoleId: roleId, PermissionId: temp})
+			addData = append(addData, datamodels.RolePermission{RoleId: roleId, PermissionId: val})
 		}
 	}
 	my.DB.Insert(&addData)
 
 	deleteList := make([]int, 0)
 	for _, val := range permissionIds {
-		isIn, _ := units.InArray(val, idList)
+		isIn := units.IntInArray(val, idIntList)
 		if !isIn {
 			deleteList = append(deleteList, val)
 		}
 	}
 
-	//var deleteData []datamodels.RolePermission
-	//my.DB.Where("role_id=?", roleId).In("permission_id", deleteList).Delete(&deleteData)
-
+	deleteData := new(datamodels.RolePermission)
+	my.DB.Where("role_id=?", roleId).In("permission_id", deleteList).Delete(deleteData)
+	fmt.Println(deleteData)
 	my.ReturnJson(true, nil, "操作成功")
 }
 
