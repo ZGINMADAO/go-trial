@@ -55,12 +55,15 @@ func (my *SystemController) GetRoleList() {
 	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
 
-
-
 func (my *SystemController) GetPermissions() {
 	var permissions []datamodels.Tree
 	my.DB.Find(&permissions)
 	my.ReturnJson(true, permissions, "")
+}
+
+func (my *SystemController) GetPermissionList() {
+	//var permissions []datamodels.Permission
+
 }
 
 func (my *SystemController) PutRoleByPermissions(roleId int) {
@@ -69,8 +72,8 @@ func (my *SystemController) PutRoleByPermissions(roleId int) {
 
 	idIntList := make([]int, len(idList))
 	for key, val := range idList {
-		temp,_:=strconv.Atoi(val)
-		idIntList[key] =temp
+		temp, _ := strconv.Atoi(val)
+		idIntList[key] = temp
 	}
 
 	//var role datamodels.Role
@@ -95,7 +98,7 @@ func (my *SystemController) PutRoleByPermissions(roleId int) {
 	addData := make([]datamodels.RolePermission, 0)
 
 	for _, val := range idIntList {
-		isIn:= units.IntInArray(val, permissionIds)
+		isIn := units.IntInArray(val, permissionIds)
 		if !isIn {
 			addData = append(addData, datamodels.RolePermission{RoleId: roleId, PermissionId: val})
 		}

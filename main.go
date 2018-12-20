@@ -11,6 +11,8 @@ import (
 	//"github.com/kataras/iris/hero"
 	"go-trial/web/middleware"
 	"github.com/kataras/iris/hero"
+	"github.com/kataras/iris/websocket"
+	"fmt"
 )
 
 var DB *xorm.Engine
@@ -67,6 +69,7 @@ func main() {
 	//app.Use(middleware.BasicAuth)
 	mvc.Configure(app.Party("/admin"), AdminMvc)
 	mvc.Configure(app.Party("/test"), TestMvc)
+	mvc.Configure(app.Party("/socket"), SocketMvc)
 	app.Run(iris.Addr("0.0.0.0:8080"))
 }
 
@@ -94,10 +97,39 @@ func AdminMvc(app *mvc.Application) {
 	app.Party("/system").Handle(new(controllers.SystemController))
 }
 
+func SocketMvc(app *mvc.Application) {
+	socket := websocket.New(websocket.Config{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	})
+
+	socket.OnConnection(handleConnection)
+
+	app.Router.Any("/iris-ws.js", websocket.ClientHandler())
+	app.Router.Get("/echo", socket.Handler())
+
+	app.Register(socket.Upgrade)
+	app.Handle(new(controllers.SocketController))
+}
+
 func TestMvc(app *mvc.Application) {
 	app.Router.Use(func(ctx iris.Context) {
 		ctx.Application().Logger().Infof("Test Path: %s", ctx.Path())
 		ctx.Next()
 	})
 	app.Handle(new(controllers.TestController))
+}
+
+func handleConnection(c websocket.Connection) {
+
+	fmt.Println("onConnect")
+	// Read events from browser
+	c.On("chat", func(msg string) {
+		// Print the message to the console, c.Context() is the iris's http context.
+		fmt.Printf("%s sent: %s\n", c.Context().RemoteAddr(), msg)
+		// Write message back to the client message owner with:
+		// c.Emit("chat", msg)
+		// Write message to all except this client with:
+		c.To(websocket.Broadcast).Emit("chat", msg)
+	})
 }

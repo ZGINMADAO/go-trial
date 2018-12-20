@@ -8,6 +8,7 @@ import (
 	"github.com/kataras/iris"
 	"net/smtp"
 	"strings"
+	"github.com/kataras/iris/mvc"
 )
 
 type ToolController struct {
@@ -34,7 +35,7 @@ func (my *ToolController) PostUpload() {
 	my.ReturnJson(true, iris.Map{"origin": info.Filename, "real": "/public/uploads/" + fileName}, "上传成功")
 }
 
-func SendEmail(_ *ToolController)  {
+func SendEmail(_ *ToolController) {
 	auth := smtp.PlainAuth("", "1287020839@qq.com", "ujpltpaenazsjcae", "smtp.qq.com")
 	to := []string{"15555124010@163.com"}
 	nickname := "ggc"
@@ -47,5 +48,12 @@ func SendEmail(_ *ToolController)  {
 	err := smtp.SendMail("smtp.qq.com:25", auth, user, to, msg)
 	if err != nil {
 		fmt.Printf("send mail error: %v", err)
+	}
+}
+
+func (my *ToolController) Get() mvc.View {
+	return mvc.View{
+		Name:   "admin/websockets.html",
+		Layout: "",
 	}
 }
