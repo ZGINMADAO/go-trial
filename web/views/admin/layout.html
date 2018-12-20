@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html>
 
-</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <meta name="keywords" content="go,order">
+    <meta name="description" content="ggc开发">
+    <link rel="shortcut icon" href="/public/favicon.ico">
+    <link href="/public/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/public/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/public/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/public/css/animate.min.css" rel="stylesheet">
+    <link href="/public/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/public/js/plugins/webuploader-0.1.5/dist/webuploader.css">
+
+    {{ part "header" }}
+</head>
+
+{{ yield }}
+
+
+<script src="/public/js/jquery.min.js?v=2.1.4"></script>
+<script src="/public/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/public/js/plugins/iCheck/icheck.min.js"></script>
+
+<script type="text/javascript" src="/public/js/plugins/webuploader-0.1.5/dist/webuploader.min.js"></script>
+
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script src="/public/js/plugins/layer-v3.1.1/layer/layer.js"></script>
+<script src="/public/js/tools/tips.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".i-checks").iCheck({checkboxClass: "icheckbox_square-green", radioClass: "iradio_square-green"})
+    });
+</script>
+
+{{ part "footer" }}
+
 </html>

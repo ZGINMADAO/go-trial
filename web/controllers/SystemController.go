@@ -15,6 +15,7 @@ type SystemController struct {
 }
 
 func (my *SystemController) GetRole() mvc.View {
+
 	return mvc.View{
 		Name: "admin/system/role_lists.html",
 	}

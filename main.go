@@ -41,7 +41,7 @@ func main() {
 	app.Favicon("./web/public/favicon.ico")
 	app.StaticWeb("/public", "./web/public")
 
-	tpl := iris.HTML("./web/views", ".html").Reload(true)
+	tpl := iris.HTML("./web/views", ".html").Layout("admin/layout.html").Reload(true)
 	app.RegisterView(tpl)
 
 	//fileServer := app.StaticHandler("./web/public", false, false)
@@ -84,9 +84,9 @@ func AdminMvc(app *mvc.Application) {
 
 	app.Register(DB, session)
 	//app.Register(SessionManage.Start)
-	//app.Router.Get("/mailbox", func(ctx iris.Context) {
-	//	ctx.View("admin/mailbox.html")
-	//})
+	app.Router.Get("/mailbox", func(ctx iris.Context) {
+		ctx.View("admin/mailbox.html")
+	})
 	app.Party("/auth").Handle(new(controllers.AuthController))
 	app.Party("/product").Handle(new(controllers.ProductController))
 	app.Party("/tool").Handle(new(controllers.ToolController))

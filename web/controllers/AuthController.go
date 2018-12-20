@@ -18,6 +18,8 @@ type AuthController struct {
 func (my *AuthController) GetLogin() mvc.View {
 
 	my.Session.Set("test", 1)
+
+
 	return mvc.View{
 		Name: "admin/login.html",
 		Data: iris.Map{"url": "/admin/login"},

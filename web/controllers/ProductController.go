@@ -34,14 +34,14 @@ func (my *ProductController) GetList() {
 	my.Ctx.JSON(iris.Map{"rows": results, "total": total})
 }
 
-func (my *ProductController) GetEdit() mvc.View {
+func (my *ProductController) GetEditAndEdit() mvc.View {
 
 	var productTypes []datamodels.ProductType
 
 	my.DB.Find(&productTypes)
 
 	return mvc.View{
-		Name: "admin/product/edit.html",
+		Name: "admin/product/add_edit.html",
 		Data: map[string][]datamodels.ProductType{"ProductTypes": productTypes},
 	}
 }

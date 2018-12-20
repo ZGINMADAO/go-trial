@@ -1,27 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-
-<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>H+ 后台主题UI框架 - 基础表格</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
-
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="/public/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
-    <link href="/public/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
-    <link href="/public/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="/public/css/animate.min.css" rel="stylesheet">
-    <link href="/public/css/style.min862f.css?v=4.1.0" rel="stylesheet">
-
-</head>
-
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight">
 
@@ -39,7 +15,7 @@
                                         class="input-group-btn">
                                         <button type="button" class="btn btn-md btn-primary"
                                                 onclick="refresh()"> 搜索</button>
-                                <button type="button" class="btn btn-md btn-primary" style="margin-left: 10px"
+                                <button type="reset" class="btn btn-md btn-primary" style="margin-left: 10px"
                                         name="resetBtn"> 重置</button> </span>
                             </div>
                         </div>
@@ -60,85 +36,35 @@
 
     </div>
 </div>
+</body>
 
-
-<script src="/public/js/jquery.min.js?v=2.1.4"></script>
-<script src="/public/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="/public/js/content.min.js?v=1.0.0"></script>
-
-
-<script src="/public/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="/public/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
-<script src="/public/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-
-<script src="/public/js/plugins/layer-v3.1.1/layer/layer.js"></script>
-<script src="/public/js/plugins/iCheck/icheck.min.js"></script>
-
-<!--引入CSS-->
-<link rel="stylesheet" type="text/css" href="/public/js/plugins/webuploader-0.1.5/dist/webuploader.css">
-
-<!--引入JS-->
-<script type="text/javascript" src="/public/js/plugins/webuploader-0.1.5/dist/webuploader.min.js"></script>
+{{define "admin/order/lists-footer"}}
 
 <script>
-    $(document).ready(function () {
-        $(".i-checks").iCheck({checkboxClass: "icheckbox_square-green", radioClass: "iradio_square-green"})
-    });
+    var config = {};
+    config.url = '/admin/order/list';
+    config.columns = [ //字段
 
-    var bootstrap_table_ajax_url = '/admin/order/list';
+        {title: '序号', field: 'Id', align: 'center', valign: 'middle'},
+        {title: '订单号', field: 'TradeNo', align: 'center', valign: 'middle'},
+        {title: '商品名', field: 'ProductTitle', align: 'center', valign: 'middle'},
+        {title: '商品分类名', field: 'ProductTypeTitle', align: 'center', valign: 'middle'},
+        {title: '订单金额', field: 'OriginAmount', align: 'center', valign: 'middle'},
+        {title: '付款金额', field: 'RealAmount', align: 'center', valign: 'middle'},
+        {title: '库存', field: 'Stock', align: 'center', valign: 'middle'},
+        {title: '订单状态', field: 'StatusTitle', align: 'center', valign: 'middle'},
 
-    $('#table').bootstrapTable({
-        classes: 'table table-hover', //bootstrap的表格样式
-        sidePagination: 'server', //获取数据方式【从服务器获取数据】
-        url: bootstrap_table_ajax_url,//ajax链接
-        pagination: true, //分页
-        pageNumber: 1, //页码【第X页】
-        pageSize: 10, //每页显示多少条数据
-        sortName: 'id', //排序字段
-        sortOrder: 'DESC',//排序方式
-        queryParamsType: '', // limit
-        striped: true,
-        queryParams: function (params) {
-            params.page = params.pageNumber;
-            params.size = params.pageSize;
-            $.extend(params, {keyWord: $("#keyWord").val()});
-            return params;
-        },
-
-        columns: [ //字段
-
-            {title: '序号', field: 'Id', align: 'center', valign: 'middle'},
-            {title: '订单号', field: 'TradeNo', align: 'center', valign: 'middle'},
-            {title: '商品名', field: 'ProductTitle', align: 'center', valign: 'middle'},
-            {title: '商品分类名', field: 'ProductTypeTitle', align: 'center', valign: 'middle'},
-            {title: '订单金额', field: 'OriginAmount', align: 'center', valign: 'middle'},
-            {title: '付款金额', field: 'RealAmount', align: 'center', valign: 'middle'},
-            {title: '库存', field: 'Stock', align: 'center', valign: 'middle'},
-            {title: '订单状态', field: 'StatusTitle', align: 'center', valign: 'middle'},
-                
-            {title: '创建时间', field: 'CreatedAt', align: 'center', valign: 'middle'},
-            {
-                title: '操作', field: 'Id', align: 'center', valign: 'middle',
-                formatter: function (value) {
-                    return (
-                            '<a href="javascript: void(0);" onclick="units.modify(this,' + value + ')">详情</a>'
-                    );
-                }
+        {title: '创建时间', field: 'CreatedAt', align: 'center', valign: 'middle'},
+        {
+            title: '操作', field: 'Id', align: 'center', valign: 'middle',
+            formatter: function (value) {
+                return (
+                        '<a href="javascript: void(0);" onclick="units.modify(this,' + value + ')">详情</a>'
+                );
             }
-        ]
-
-    });
-
-
-    $(document).on('click', '[name="resetBtn"]', function () {
-        document.getElementById("searchForm").reset();
-        refresh();
-    });
-
-    function refresh() {
-        $('#table').bootstrapTable('refresh');
-    }
-
+        }
+    ];
+    tips.bootstrapTable(config);
 
     var layerIndex;
     $(document).on('click', '#addBtn', function () {
@@ -151,141 +77,27 @@
         });
     });
 
-    function getFormObj(formId) {
-        var data = {};
-        var formVal = $(formId).serializeArray();
-        var temp = {};
-        $.each(formVal, function (inx, val) {
-            temp[val.name] = val.value;
-            $.extend(data, temp);
-        });
-        return data;
-    }
-
-    $(document).on('click', '#addYes', function () {
-
-        var id = $(this).data('id');
-        var formObj = getFormObj("#addForm");
-        $.extend(formObj, {image: $("#imgView").find("img").attr('src')});
-        var type, url;
-        if (id) { //修改
-            type = 'put';
-            url = '/admin/product/type/' + id;
-        } else {
-            type = 'post';
-            url = '/admin/product/type';
-        }
-
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: formObj,
-            success: function (result) {
-                if (result.status === true) {
-                    layer.close(layerIndex);
-                    layer.msg(result.message, {icon: 6, time: 3000});
-                    refresh();
-                } else {
-                    layer.alert(result.message, {icon: 5});
-                }
-            },
-            error: function () {
-                layer.alert('异步请求失败');
-            }
-        });
-    });
-
-
-    $(document).on('change', '[name="file"]', function () {
-        var formData = new FormData();
-        formData.append('file', $(this)[0].files[0]);
-        $.ajax({
-            url: '/admin/tool/upload',
-            type: 'POST',
-            cache: false,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (result) {
-                console.log(result);
-                if (result.status === true) {
-                    var imgView = $("#imgView");
-                    imgView.css('display', '');
-                    imgView.find("img").attr('src', result.data.real)
-                } else {
-                    layer.alert(result.message);
-                }
-            }
-        });
-    });
-
-
-    $(document).on('click', '#fileTrigger', function () {
-        $("[name='file']").trigger('click');
-    });
-
     var units = {
 
-        buildHtml: function (title) {
-
-            if (title === undefined) {
-                title = '';
-            }
-            return '<div class="ibox float-e-margins" style="height: 100px">' +
-                    '        <div class="ibox-content">' +
-                    '            <form class="form-horizontal" id="addForm" enctype="multipart/form-data">' +
-                    '                <div class="form-group">' +
-                    '                    <label class="col-sm-3 control-label">名称：</label>' +
-                    '                    <div class="col-sm-8">' +
-                    '                        <input type="text" placeholder="请输入名称" class="form-control" name="title" value="' + title + '">' +
-                    '                    </div>' +
-                    '                </div>' +
-                    '                <div class="form-group" id="imgView" style="display: none">' +
-                    '                    <div class="col-sm-8 col-sm-offset-3">' +
-                    '                       <img src="" style="width: 75px;height: 75px">' +
-                    '                    </div>' +
-                    '                </div>' +
-                    '                <div class="form-group">' +
-                    '                    <label class="col-sm-3 control-label">图片：</label>' +
-                    '                    <div class="col-sm-8">' +
-                    '                        <button class="btn btn-md btn-warning" type="button" id="fileTrigger" data-id="">文件上传</button>' +
-                    '                        <input type="file" name="file" style="display: none">' +
-                    '                    </div>' +
-                    '                </div>' +
-                    '                <div class="form-group">' +
-                    '                    <div class="col-sm-offset-3 col-sm-8">' +
-                    '                        <button class="btn btn-md btn-success" type="button" id="addYes" data-id="">确定</button>' +
-                    '                    </div>' +
-                    '                </div>' +
-                    '            </form>' +
-                    '        </div>' +
-                    '    </div>';
-        },
-        // modify: function (_this, id) {
-        //     var temp = $(_this).parent().prev();
-        //     layerIndex = layer.open({
-        //         type: 1,
-        //         title: '修改商品分类',
-        //         area: ['40%', '40%'],
-        //         content: units.buildHtml(temp.prev().prev().text()),
-        //         success: function () {
-        //             var srcAddr = temp.prev().find('img').attr('src');
-        //             if (srcAddr) {
-        //                 var imgView = $("#imgView");
-        //                 imgView.css('display', '');
-        //                 imgView.find("img").attr('src', srcAddr);
-        //             }
-        //             $("#addYes").data('id', id);
-        //         }
-        //     });
-        // }
+        modify: function (_this, id) {
+            var temp = $(_this).parent().prev();
+            layerIndex = layer.open({
+                type: 1,
+                title: '修改商品分类',
+                area: ['40%', '40%'],
+                content: units.buildHtml(temp.prev().prev().text()),
+                success: function () {
+                    var srcAddr = temp.prev().find('img').attr('src');
+                    if (srcAddr) {
+                        var imgView = $("#imgView");
+                        imgView.css('display', '');
+                        imgView.find("img").attr('src', srcAddr);
+                    }
+                    $("#addYes").data('id', id);
+                }
+            });
+        }
     };
 
 </script>
-<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
-</body>
-
-
-<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
-</html>
+{{end}}
