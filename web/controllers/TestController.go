@@ -48,3 +48,7 @@ func (my *TestController) Get() {
 	//return "fuck you"
 
 }
+
+func (my *TestController) GetOne() {
+
+}

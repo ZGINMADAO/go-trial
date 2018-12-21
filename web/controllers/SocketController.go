@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/kataras/iris/websocket"
 	"sync/atomic"
+	"fmt"
 )
 
 type SocketController struct {
@@ -20,6 +21,8 @@ func decrement() uint64 {
 }
 
 func (c *SocketController) onLeave(roomName string) {
+
+	fmt.Println("leave")
 	//visits--
 	newCount := decrement()
 
@@ -42,6 +45,18 @@ func (c *SocketController) update() {
 
 /* websocket.Connection could be lived here as well, it doesn't matter */
 func (c *SocketController) Get() {
+
+	fmt.Println("Get")
+	c.Conn.OnLeave(c.onLeave)
+	c.Conn.On("visit", c.update)
+
+	// 在所有事件回调注册后调用它。
+	c.Conn.Wait()
+}
+
+func (c *SocketController) GetTest() {
+
+	fmt.Println("GetTest")
 	c.Conn.OnLeave(c.onLeave)
 	c.Conn.On("visit", c.update)
 

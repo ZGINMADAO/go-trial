@@ -16,7 +16,7 @@
     var scheme = document.location.protocol == "https:" ? "wss" : "ws";
     var port = document.location.port ? (":" + document.location.port) : "";
     // see app.Get("/echo", ws.Handler()) on main.go
-    var wsURL = scheme + "://" + document.location.hostname + port + "/socket/echo";
+    var wsURL = scheme + "://" + document.location.hostname + port + "/socket";
 
     var input = document.getElementById("input");
     var output = document.getElementById("output");
