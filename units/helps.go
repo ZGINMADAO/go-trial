@@ -46,3 +46,12 @@ func StrInArray(needle string, haystack []string) bool {
 	}
 	return false
 }
+
+func InArray(needle interface{}, haystack ...interface{}) bool {
+	for _, val := range haystack {
+		if needle == val {
+			return true
+		}
+	}
+	return false
+}
