@@ -1,27 +1,323 @@
-
-<div class="col-sm-6 rolePermission" style="display: none">
-    <div class="tabs-container">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 第100一个选项卡</a>
-            </li>
-            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">第二个选项卡</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div id="tab-1" class="tab-pane active">
-                <div class="panel-body">
-                    <strong>HTML5 文档类型</strong>
-                    <p>Bootstrap 使用到的某些 HTML 元素和 CSS 属性需要将页面设置为 HTML5 文档类型。在你项目中的每个页面都要参照下面的格式进行设置。</p>
+{{define "admin/system/role_permission"}}
+<div class="row rolePermission" style="display: none">
+    <div class="col-sm-12">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 第一个选项卡</a>
+                </li>
+                <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">第二个选项卡</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane active">
+                    <div class="panel-body">
+                        <strong>HTML5 文档类型</strong>
+                        <p>Bootstrap 使用到的某些 HTML 元素和 CSS 属性需要将页面设置为 HTML5 文档类型。在你项目中的每个页面都要参照下面的格式进行设置。</p>
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane">
+                    <div class="panel-body">
+                        <strong>移动设备优先</strong>
+                        <p>在 Bootstrap 2 中，我们对框架中的某些关键部分增加了对移动设备友好的样式。而在 Bootstrap 3
+                            中，我们重写了整个框架，使其一开始就是对移动设备友好的。这次不是简单的增加一些可选的针对移动设备的样式，而是直接融合进了框架的内核中。也就是说，Bootstrap
+                            是移动设备优先的。针对移动设备的样式融合进了框架的每个角落，而不是增加一个额外的文件。</p>
+                    </div>
                 </div>
             </div>
-            <div id="tab-2" class="tab-pane">
-                <div class="panel-body">
-                    <strong>移动设备优先</strong>
-                    <p>在 Bootstrap 2 中，我们对框架中的某些关键部分增加了对移动设备友好的样式。而在 Bootstrap 3
-                        中，我们重写了整个框架，使其一开始就是对移动设备友好的。这次不是简单的增加一些可选的针对移动设备的样式，而是直接融合进了框架的内核中。也就是说，Bootstrap
-                        是移动设备优先的。针对移动设备的样式融合进了框架的每个角落，而不是增加一个额外的文件。</p>
+
+
+        </div>
+        <div class="tabs-container" lay-filter="tab">
+            <ul class="nav nav-tabs">
+                <li class="active"><input type="checkbox" lay-skin="primary" name="authority" value="1" id="node-1"
+                                              data-node="1" title="" lay-filter="level-1" checked="">
+                    <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                            class="layui-icon"></i></div>
+                    统计
+                </li>
+                <li class=""><input type="checkbox" lay-skin="primary" name="authority" value="2" id="node-2"
+                                    data-node="2" title="" lay-filter="level-1" checked="">
+                    <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                            class="layui-icon"></i></div>
+                    菜单
+                </li>
+                <li class=""><input type="checkbox" lay-skin="primary" name="authority" value="5" id="node-5"
+                                    data-node="5" title="" lay-filter="level-1" checked="">
+                    <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                            class="layui-icon"></i></div>
+                    素材
+                </li>
+                <li class=""><input type="checkbox" lay-skin="primary" name="authority" value="8" id="node-8"
+                                    data-node="8" title="" lay-filter="level-1" checked="">
+                    <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                            class="layui-icon"></i></div>
+                    用户
+                </li>
+                <li class=""><input type="checkbox" lay-skin="primary" name="authority" value="15" id="node-15"
+                                    data-node="15" title="" lay-filter="level-1" checked="">
+                    <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                            class="layui-icon"></i></div>
+                    内部
+                </li>
+                <li class=""><input type="checkbox" lay-skin="primary" name="authority" value="42" id="node-42"
+                                    data-node="42" title="" lay-filter="level-1">
+                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div>
+                    支付
+                </li>
+            </ul>
+            <div class="tab-content" style="padding-top: 50px;">
+                <div class="layui-tab-item-1 tab-pane active">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md3 content-left full-height over-auto">
+                        <ul class="level level-two">
+                            <li class="level-two-option-20 child-show"><input type="checkbox" lay-skin="primary"
+                                                                              name="authority" value="20" id="node-20"
+                                                                              data-parent="1" data-node="1-20" title=""
+                                                                              lay-filter="level-2" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                资产管理
+                                <ul class="level level-three"></ul>
+                            </li>
+                            <li class="level-two-option-21 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                    value="21" id="node-21" data-parent="1"
+                                                                    data-node="1-21" title="" lay-filter="level-2"
+                                                                    checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                学杂缴费
+                                <ul class="level level-three"></ul>
+                            </li>
+                            <li class="level-two-option-26 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                    value="26" id="node-26" data-parent="1"
+                                                                    data-node="1-26" title="" lay-filter="level-2"
+                                                                    checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                fdks
+                                <ul class="level level-three"></ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md9 content-right full-height over-auto"></div>
+                </div>
+                <div class="tab-pane layui-tab-item-2">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md3 content-left full-height over-auto">
+                        <ul class="level level-two">
+                            <li class="level-two-option-3 child-show"><input type="checkbox" lay-skin="primary"
+                                                                             name="authority" value="3" id="node-3"
+                                                                             data-parent="2" data-node="2-3" title=""
+                                                                             lay-filter="level-2" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                后台菜单配置 <span class="layui-icon layui-icon-right pull-right"></span>
+                                <ul class="level level-three">
+                                    <li data-id="34" class="level-three-checked"><input type="checkbox"
+                                                                                        lay-skin="primary"
+                                                                                        name="authority" value="34"
+                                                                                        id="node-34" data-parent="3"
+                                                                                        data-node="2-3-34" title=""
+                                                                                        lay-filter="level-3">
+                                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i
+                                                class="layui-icon"></i></div>
+                                        555
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="level-two-option-4 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                   value="4" id="node-4" data-parent="2" data-node="2-4"
+                                                                   title="" lay-filter="level-2" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                前台模块配置 <span class="layui-icon layui-icon-right pull-right"></span>
+                                <ul class="level level-three">
+                                    <li data-id="19" class=""><input type="checkbox" lay-skin="primary" name="authority"
+                                                                     value="19" id="node-19" data-parent="4"
+                                                                     data-node="2-4-19" title="" lay-filter="level-3"
+                                                                     checked="">
+                                        <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                             lay-skin="primary"><i class="layui-icon"></i></div>
+                                        智能用电
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md9 content-right full-height over-auto">
+                        <div class="child-content child-content-34 level-two-option-3 level-three-option-34 layui-show">
+                            <ul class="level level-fore"> 无四级菜单</ul>
+                        </div>
+                        <div class="child-content child-content-19 level-two-option-4 level-three-option-19 ">
+                            <ul class="level level-fore"> 无四级菜单</ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane layui-tab-item-5">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md3 content-left full-height over-auto">
+                        <ul class="level level-two">
+                            <li class="level-two-option-6 child-show"><input type="checkbox" lay-skin="primary"
+                                                                             name="authority" value="6" id="node-6"
+                                                                             data-parent="5" data-node="5-6" title=""
+                                                                             lay-filter="level-2" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                图标库
+                                <ul class="level level-three"></ul>
+                            </li>
+                            <li class="level-two-option-7 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                   value="7" id="node-7" data-parent="5" data-node="5-7"
+                                                                   title="" lay-filter="level-2" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                文章素材 <span class="layui-icon layui-icon-right pull-right"></span>
+                                <ul class="level level-three">
+                                    <li data-id="35" class=""><input type="checkbox" lay-skin="primary" name="authority"
+                                                                     value="35" id="node-35" data-parent="7"
+                                                                     data-node="5-7-35" title="" lay-filter="level-3">
+                                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i
+                                                class="layui-icon"></i></div>
+                                        新建文章素材
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md9 content-right full-height over-auto">
+                        <div class="child-content child-content-35 level-two-option-7 level-three-option-35 ">
+                            <ul class="level level-fore"> 无四级菜单</ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane layui-tab-item-8">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md3 content-left full-height over-auto">
+                        <ul class="level level-two">
+                            <li class="level-two-option-9 child-show"><input type="checkbox" lay-skin="primary"
+                                                                             name="authority" value="9" id="node-9"
+                                                                             data-parent="8" data-node="8-9" title=""
+                                                                             lay-filter="level-2" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                用户平台管理 <span class="layui-icon layui-icon-right pull-right"></span>
+                                <ul class="level level-three">
+                                    <li data-id="10" class="level-three-checked"><input type="checkbox"
+                                                                                        lay-skin="primary"
+                                                                                        name="authority" value="10"
+                                                                                        id="node-10" data-parent="9"
+                                                                                        data-node="8-9-10" title=""
+                                                                                        lay-filter="level-3" checked="">
+                                        <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                             lay-skin="primary"><i class="layui-icon"></i></div>
+                                        平台管理
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="level-two-option-12 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                    value="12" id="node-12" data-parent="8"
+                                                                    data-node="8-12" title="" lay-filter="level-2"
+                                                                    checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                用户消息管理 <span class="layui-icon layui-icon-right pull-right"></span>
+                                <ul class="level level-three">
+                                    <li data-id="13" class=""><input type="checkbox" lay-skin="primary" name="authority"
+                                                                     value="13" id="node-13" data-parent="12"
+                                                                     data-node="8-12-13" title="" lay-filter="level-3"
+                                                                     checked="">
+                                        <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                             lay-skin="primary"><i class="layui-icon"></i></div>
+                                        消息推送
+                                    </li>
+                                    <li data-id="14" class=""><input type="checkbox" lay-skin="primary" name="authority"
+                                                                     value="14" id="node-14" data-parent="12"
+                                                                     data-node="8-12-14" title="" lay-filter="level-3"
+                                                                     checked="">
+                                        <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                             lay-skin="primary"><i class="layui-icon"></i></div>
+                                        意见反馈
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md9 content-right full-height over-auto">
+                        <div class="child-content child-content-10 level-two-option-9 level-three-option-10 layui-show">
+                            <ul class="level level-fore"> 无四级菜单</ul>
+                        </div>
+                        <div class="child-content child-content-13 level-two-option-12 level-three-option-13 ">
+                            <ul class="level level-fore"> 无四级菜单</ul>
+                        </div>
+                        <div class="child-content child-content-14 level-two-option-12 level-three-option-14 ">
+                            <ul class="level level-fore"> 无四级菜单</ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane layui-tab-item-15">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md3 content-left full-height over-auto">
+                        <ul class="level level-two">
+                            <li class="level-two-option-16 child-show"><input type="checkbox" lay-skin="primary"
+                                                                              name="authority" value="16" id="node-16"
+                                                                              data-parent="15" data-node="15-16"
+                                                                              title="" lay-filter="level-2" checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                组织架构管理
+                                <ul class="level level-three"></ul>
+                            </li>
+                            <li class="level-two-option-17 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                    value="17" id="node-17" data-parent="15"
+                                                                    data-node="15-17" title="" lay-filter="level-2"
+                                                                    checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                权限设置
+                                <ul class="level level-three"></ul>
+                            </li>
+                            <li class="level-two-option-18 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                    value="18" id="node-18" data-parent="15"
+                                                                    data-node="15-18" title="" lay-filter="level-2"
+                                                                    checked="">
+                                <div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                操作日志
+                                <ul class="level level-three"></ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md9 content-right full-height over-auto"></div>
+                </div>
+                <div class="tab-pane layui-tab-item-42">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md3 content-left full-height over-auto">
+                        <ul class="level level-two">
+                            <li class="level-two-option-43 child-show"><input type="checkbox" lay-skin="primary"
+                                                                              name="authority" value="43" id="node-43"
+                                                                              data-parent="42" data-node="42-43"
+                                                                              title="" lay-filter="level-2">
+                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                订单管理
+                                <ul class="level level-three"></ul>
+                            </li>
+                            <li class="level-two-option-44 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                    value="44" id="node-44" data-parent="42"
+                                                                    data-node="42-44" title="" lay-filter="level-2">
+                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                退款管理
+                                <ul class="level level-three"></ul>
+                            </li>
+                            <li class="level-two-option-45 "><input type="checkbox" lay-skin="primary" name="authority"
+                                                                    value="45" id="node-45" data-parent="42"
+                                                                    data-node="42-45" title="" lay-filter="level-2">
+                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i
+                                        class="layui-icon"></i></div>
+                                汇总统计
+                                <ul class="level level-three"></ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-col-xs8 layui-col-sm8 layui-col-md9 content-right full-height over-auto"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{{end}}
