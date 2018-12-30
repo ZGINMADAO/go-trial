@@ -4,9 +4,11 @@ import (
 	"github.com/kataras/iris/websocket"
 	"sync/atomic"
 	"fmt"
+	"github.com/kataras/iris"
 )
 
 type SocketController struct {
+	Ctx  iris.Context
 	Conn websocket.Connection
 }
 
@@ -14,6 +16,11 @@ var visits uint64
 
 func increment() uint64 {
 	return atomic.AddUint64(&visits, 1)
+}
+
+func (c *SocketController) GetDemo() {
+	c.Conn.To(websocket.All).Emit("visit","demo")
+	c.Ctx.WriteString("DEMO")
 }
 
 func decrement() uint64 {
@@ -46,6 +53,7 @@ func (c *SocketController) update() {
 /* websocket.Connection could be lived here as well, it doesn't matter */
 func (c *SocketController) Get() {
 
+	c.Conn.To(websocket.All).EmitMessage([]byte("test"))
 	fmt.Println("Get")
 	c.Conn.OnLeave(c.onLeave)
 	c.Conn.On("visit", c.update)

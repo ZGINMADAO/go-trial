@@ -11,7 +11,8 @@ import (
 	//"github.com/kataras/iris/hero"
 	"go-trial/web/middleware"
 	"github.com/kataras/iris/hero"
-	"go-trial/web/socket"
+	"github.com/kataras/iris/websocket"
+	//"go-trial/web/socket"
 )
 
 var DB *xorm.Engine
@@ -68,9 +69,9 @@ func main() {
 	//app.Use(middleware.BasicAuth)
 	mvc.Configure(app.Party("/admin"), AdminMvc)
 	mvc.Configure(app.Party("/test"), TestMvc)
-	//mvc.Configure(app.Party("/socket"), SocketMvc)
+	mvc.Configure(app.Party("/socket"), SocketMvc)
 
-	socket.StartSocket(app)
+	//socket.StartSocket(app)
 
 	app.Run(iris.Addr("0.0.0.0:8080"))
 }
@@ -108,21 +109,22 @@ func TestMvc(app *mvc.Application) {
 	app.Handle(new(controllers.TestController))
 }
 
-//func SocketMvc(app *mvc.Application) {
-//	ws := websocket.New(websocket.Config{
-//		ReadBufferSize:  1024,
-//		WriteBufferSize: 1024,
-//	})
-//
-//	app.Router.Any("/iris-ws.js", websocket.ClientHandler())
-//
-//	//app.Router.Get("/echo", ws.Handler())
-//	//app.Router.Get("/demo", ws.Handler())
-//	//ws.OnConnection(handleConnection)
-//
-//	app.Register(ws.Upgrade)
-//	app.Handle(new(controllers.SocketController))
-//}
+func SocketMvc(app *mvc.Application) {
+
+	ws := websocket.New(websocket.Config{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	})
+
+	app.Router.Any("/iris-ws.js", websocket.ClientHandler())
+
+	//app.Router.Get("/echo", ws.Handler())
+	//app.Router.Get("/demo", ws.Handler())
+	//ws.OnConnection(handleConnection)
+
+	app.Register(ws.Upgrade)
+	app.Handle(new(controllers.SocketController))
+}
 
 
 

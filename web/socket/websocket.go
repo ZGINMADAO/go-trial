@@ -11,7 +11,6 @@ func StartSocket(app *iris.Application) {
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
 	})
-
 	ws.OnConnection(handleConnection)
 
 	app.Get("/iris-ws.js", func(ctx iris.Context) {
