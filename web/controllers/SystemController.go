@@ -16,8 +16,15 @@ type SystemController struct {
 
 func (my *SystemController) GetRole() mvc.View {
 
+	var permissions []datamodels.Tree
+	my.DB.Find(&permissions)
+	deepResult := make([]units.List, 0)
+	units.Recursive(permissions, 0, &deepResult)
 	return mvc.View{
 		Name: "admin/system/role_lists.html",
+		Data: struct {
+			Permissions interface{}
+		}{deepResult},
 	}
 }
 

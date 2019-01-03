@@ -1,3 +1,19 @@
+{{define "admin/system/role_lists-header"}}
+<style>
+    .tabs-container .panel-body {
+        border-bottom: none;
+    }
+
+    .tabs-container .nav-tabs > li.active > a, .tabs-container .nav-tabs > li.active > a:focus, .tabs-container .nav-tabs > li.active > a:hover {
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+
+    .nav-tabs > li > a {
+        color: #555;
+    }
+</style>
+{{end}}
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight">
 
@@ -19,6 +35,9 @@
                             </div>
                         </div>
 
+                        <label class="checkbox-inline"><input type="checkbox" value="option1"
+                                                              id="inlineCheckbox">a</label>
+
                         <div class="col-sm-2 pull-right" style="text-align: right">
                             <button type="button" class="btn btn-md btn-primary" id="addBtn"> 添加</button>
                         </div>
@@ -36,7 +55,6 @@
     </div>
 </div>
 
-{{render "admin/system/role_permission"}}
 
 </body>
 
@@ -44,6 +62,8 @@
 {{define "admin/system/role_lists-footer"}}
 
 <script>
+
+
     var config = {};
     config.url = '/admin/system/role/list';
     config.columns = [ //字段
@@ -84,6 +104,17 @@
         });
     });
 
+    $(document).on('click', '#assignPermissions', function () {
+        var roleId = 1;
+        var chkVal = [];
+        var items = $("input[type=checkbox]:checked");
+        items.each(function () {
+            chkVal.push($(this).val());
+        });
+        var config = {url: '/role/' + roleId + '/permissions', data: {idList: chkVal}, type: 'put'};
+        tips.ajax(config);
+
+    });
     var units = {
         modify: function (_this, id) {
             var temp = $(_this).parent().prev();
@@ -104,14 +135,29 @@
                 }
             });
         },
+        roleHtml: "{{render "admin/system/role_permission"}}",
         permission: function (_this, id) {
             layer.open({
+                title: "权限分配",
                 type: 1,
-                offset: 'r',
-                area: ['80%', '100%'],
-                content: $(".rolePermission").html(),
+                // offset: 'b',
+                area: ['80%', '30%'],
+                content: this.roleHtml,
                 success: function () {
-
+                    $(".i-checks").iCheck({
+                        checkboxClass: "icheckbox_square-green",
+                        radioClass: "iradio_square-green"
+                    }).on('ifChecked', function () {
+                        var child = $(this).data('child');
+                        if (child) {
+                            $("#" + child).find("input").iCheck('check');
+                        }
+                    }).on('ifUnchecked', function () {
+                        var child = $(this).data('child');
+                        if (child) {
+                            $("#" + child).find("input").iCheck('uncheck');
+                        }
+                    });
                 }
             });
         }
