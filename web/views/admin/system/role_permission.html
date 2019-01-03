@@ -7,7 +7,8 @@
             <a data-toggle="tab" href="#tab-{{$val.Id}}" {{if eq $key 0}}
                aria-expanded="true" {{else}} aria-expanded="false" {{end}}>
                 <label class="checkbox-inline i-checks">
-                    <input type="checkbox" data-child="tab-{{$val.Id}}" value="{{$val.Id}}">{{$val.Title}}
+                    <input type="checkbox" data-child="tab-{{$val.Id}}"
+                           value="{{$val.Id}}">{{$val.Title}}
                 </label>
             </a>
         </li>
@@ -29,6 +30,8 @@
         </div>
     {{end}}
     </div>
-    <div class="col-sm-12" style="text-align: center"><button type="button" id="assignPermissions" class="btn btn-md btn-success">保存</button></div>
+    <div class="col-sm-12" style="text-align: center">
+        <button type="button" id="assignPermissions" data-id="" class="btn btn-md btn-success">保存</button>
+    </div>
 </div>
 {{end}}

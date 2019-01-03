@@ -20,12 +20,27 @@ func (my *SystemController) GetRole() mvc.View {
 	my.DB.Find(&permissions)
 	deepResult := make([]units.List, 0)
 	units.Recursive(permissions, 0, &deepResult)
+
+	//var role datamodels.Role
+	//ok, err := my.DB.Get(&role)
+	//if !ok || err != nil {
+	//
+	//}
+
+	//var rolePermissions []datamodels.RolePermission
+	//my.DB.Where("role_id=?", Id).Select("permission_id").Find(&rolePermissions)
+
 	return mvc.View{
 		Name: "admin/system/role_lists.html",
 		Data: struct {
 			Permissions interface{}
 		}{deepResult},
 	}
+}
+func (my *SystemController) GetRoleByPermissions(id int) {
+	var rolePermissions []datamodels.RolePermission
+	my.DB.Where("role_id=?", id).Select("permission_id").Find(&rolePermissions)
+	my.ReturnJson(true, rolePermissions, "")
 }
 
 func (my *SystemController) GetRoleList() {
@@ -75,20 +90,21 @@ func (my *SystemController) GetPermissionList() {
 
 func (my *SystemController) PutRoleByPermissions(roleId int) {
 
-	idList := my.Ctx.PostValues("idList")
-
+	idList := my.Ctx.PostValues("idList[]")
 	idIntList := make([]int, len(idList))
 	for key, val := range idList {
 		temp, _ := strconv.Atoi(val)
 		idIntList[key] = temp
 	}
 
-	//var role datamodels.Role
-	//ok, err := my.DB.Id(roleId).Get(&role)
-	//if err != nil || !ok {
-	//	my.ReturnJson(false, nil, "角色信息不存在")
-	//	return
-	//}
+	var role datamodels.Role
+	fmt.Println(roleId)
+	ok, err := my.DB.Where("id=?",roleId).Get(&role)
+	fmt.Println(role)
+	if err != nil || !ok {
+		my.ReturnJson(false, nil, err.Error())
+		return
+	}
 
 	var permissions []datamodels.RolePermission
 	pErr := my.DB.Where("role_id=?", roleId).Select("permission_id").Find(&permissions)

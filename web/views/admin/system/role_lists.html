@@ -35,9 +35,6 @@
                             </div>
                         </div>
 
-                        <label class="checkbox-inline"><input type="checkbox" value="option1"
-                                                              id="inlineCheckbox">a</label>
-
                         <div class="col-sm-2 pull-right" style="text-align: right">
                             <button type="button" class="btn btn-md btn-primary" id="addBtn"> 添加</button>
                         </div>
@@ -104,17 +101,7 @@
         });
     });
 
-    $(document).on('click', '#assignPermissions', function () {
-        var roleId = 1;
-        var chkVal = [];
-        var items = $("input[type=checkbox]:checked");
-        items.each(function () {
-            chkVal.push($(this).val());
-        });
-        var config = {url: '/role/' + roleId + '/permissions', data: {idList: chkVal}, type: 'put'};
-        tips.ajax(config);
 
-    });
     var units = {
         modify: function (_this, id) {
             var temp = $(_this).parent().prev();
@@ -136,32 +123,75 @@
             });
         },
         roleHtml: "{{render "admin/system/role_permission"}}",
+        permissionIndex: null,
         permission: function (_this, id) {
-            layer.open({
+            this.permissionIndex = layer.open({
                 title: "权限分配",
                 type: 1,
                 // offset: 'b',
                 area: ['80%', '30%'],
                 content: this.roleHtml,
                 success: function () {
+                    $("#assignPermissions").data('id', id);
                     $(".i-checks").iCheck({
                         checkboxClass: "icheckbox_square-green",
                         radioClass: "iradio_square-green"
-                    }).on('ifChecked', function () {
+                    }).on('ifClicked', function () {
                         var child = $(this).data('child');
-                        if (child) {
-                            $("#" + child).find("input").iCheck('check');
-                        }
-                    }).on('ifUnchecked', function () {
-                        var child = $(this).data('child');
-                        if (child) {
-                            $("#" + child).find("input").iCheck('uncheck');
+
+                        if ($(this).prop('checked') === true) {
+                            if (child) {
+                                $("#" + child).find("input").iCheck('uncheck');
+                            }
+                        } else {
+                            if (child) {
+                                $("#" + child).find("input").iCheck('check');
+                            }
                         }
                     });
+
+                    var config = {url: '/admin/system/role/' + id + '/permissions'};
+                    config.success = function (result) {
+                        var permissionIds = [];
+                        $.each(result.data, function (inx, val) {
+                            permissionIds.push(val['PermissionId'])
+                        });
+                        var items = $("input[type=checkbox]");
+                        items.each(function () {
+                            var temp = parseInt($(this).val().toString());
+                            if (permissionIds.indexOf(temp) !== -1) {
+                                $(this).iCheck('check');
+                            }
+                        });
+                    };
+                    tips.ajax(config);
                 }
             });
         }
     };
+
+    $(document).on('click', '#assignPermissions', function () {
+
+        var chkVal = [];
+        var items = $("input[type=checkbox]:checked");
+        items.each(function () {
+            chkVal.push($(this).val());
+        });
+
+        var config = {
+            url: '/admin/system/role/' + $(this).data('id') + '/permissions',
+            data: {idList: chkVal},
+            type: 'put',
+            success: function (result) {
+
+                layer.msg(result.message, {icon: 6, time: 1500}, function () {
+                    layer.close(units.permissionIndex);
+                });
+            }
+        };
+        tips.ajax(config);
+
+    });
 
 </script>
 {{end}}
