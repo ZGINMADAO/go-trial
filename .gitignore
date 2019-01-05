@@ -2,3 +2,4 @@
 /.idea
 /web/public/uploads
 /.env
+/vendor
