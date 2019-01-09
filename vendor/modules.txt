@@ -9,6 +9,8 @@ github.com/aymerick/raymond
 github.com/aymerick/raymond/ast
 github.com/aymerick/raymond/parser
 github.com/aymerick/raymond/lexer
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+github.com/dgrijalva/jwt-go
 # github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385
 github.com/eknkc/amber
 github.com/eknkc/amber/parser
@@ -32,6 +34,8 @@ github.com/iris-contrib/blackfriday
 github.com/iris-contrib/formBinder
 # github.com/iris-contrib/go.uuid v2.0.0+incompatible
 github.com/iris-contrib/go.uuid
+# github.com/iris-contrib/middleware v0.0.0-20181021162728-8bd5d51b3c2e
+github.com/iris-contrib/middleware/jwt
 # github.com/joho/godotenv v1.3.0
 github.com/joho/godotenv
 # github.com/json-iterator/go v1.1.5
@@ -47,8 +51,8 @@ github.com/kataras/iris/mvc
 github.com/kataras/iris/sessions
 github.com/kataras/iris/websocket
 github.com/kataras/iris/middleware/basicauth
-github.com/kataras/iris/cache
 github.com/kataras/iris/context
+github.com/kataras/iris/cache
 github.com/kataras/iris/core/errors
 github.com/kataras/iris/core/handlerconv
 github.com/kataras/iris/core/host
