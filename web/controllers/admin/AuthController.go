@@ -64,7 +64,7 @@ func (my *AuthController) PostLogin() {
 func (my *AuthController) Get() mvc.View {
 	admin := my.Session.Get("admin_session_profile")
 	var result []datamodels.Tree
-	my.DB.Find(&result)
+	my.DB.OrderBy("sort desc").Find(&result)
 	deepResult := make([]units.List, 0)
 	units.Recursive(result, 0, &deepResult)
 	return mvc.View{

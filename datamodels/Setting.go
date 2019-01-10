@@ -2,12 +2,10 @@ package datamodels
 
 import "time"
 
-type Member struct {
+type Setting struct {
 	Id        int
-	Nickname  string
-	Username  string
-	Password  string
-	Status    int8
+	Key       string
+	Val       string
 	CreatedAt time.Time `xorm:"datetime created"`
 	UpdatedAt time.Time `xorm:"datetime updated"`
 	DeletedAt time.Time `xorm:"datetime deleted"`

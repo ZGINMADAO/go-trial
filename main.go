@@ -135,6 +135,7 @@ func AdminMvc(app *mvc.Application) {
 		ctx.View("admin/mailbox.html")
 	})
 	app.Party("/auth").Handle(new(admin.AuthController))
+	app.Party("/member").Handle(new(admin.MemberController))
 	app.Party("/product").Handle(new(admin.ProductController))
 	app.Party("/tool").Handle(new(admin.ToolController))
 	app.Party("/order").Handle(new(admin.OrderController))

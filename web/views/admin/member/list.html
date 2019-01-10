@@ -14,7 +14,7 @@
                                 <span
                                         class="input-group-btn">
                                         <button type="button" class="btn btn-md btn-primary"
-                                                onclick="refresh()"> 搜索123</button>
+                                                onclick="refresh()"> 搜索</button>
                                 <button type="reset" class="btn btn-md btn-primary" style="margin-left: 10px"
                                         name="resetBtn"> 重置</button> </span>
                             </div>
@@ -38,20 +38,16 @@
 </div>
 </body>
 
-{{define "admin/supplier/list-footer"}}
+{{define "admin/member/list-footer"}}
 
 <script>
     var config = {};
-    config.url = '/admin/supplier/list';
+    config.url = '/admin/member/list';
     config.columns = [ //字段
 
         {title: '序号', field: 'Id', align: 'center', valign: 'middle'},
-        {title: '名称', field: 'Title', align: 'center', valign: 'middle'},
-        {title: '销售量', field: 'Sold', align: 'center', valign: 'middle'},
-        {title: '联系方式', field: 'Contact', align: 'center', valign: 'middle'},
-        {title: '评分', field: 'score', align: 'center', valign: 'middle'},
-        {title: '营业时间', field: 'BusinessDuration', align: 'center', valign: 'middle'},
-        {title: '地址', field: 'Address', align: 'center', valign: 'middle'},
+        {title: '用户', field: 'Username', align: 'center', valign: 'middle'},
+        {title: '昵称', field: 'Nickname', align: 'center', valign: 'middle'},
         {title: '状态', field: 'StatusTitle', align: 'center', valign: 'middle'},
         {title: '创建时间', field: 'CreatedAt', align: 'center', valign: 'middle'},
         {
