@@ -1,4 +1,4 @@
-package services
+package admin
 
 type SystemService interface {
 	Permissions()

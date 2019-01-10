@@ -1,4 +1,4 @@
-package controllers
+package admin
 
 import (
 	"github.com/kataras/iris/mvc"
@@ -6,11 +6,12 @@ import (
 	"go-trial/datamodels"
 	"fmt"
 	"go-trial/units"
-	"go-trial/services"
+	adminService "go-trial/services/admin"
+	"go-trial/web/controllers"
 )
 
 type ProductController struct {
-	BaseController
+	controllers.BaseController
 }
 
 func (my *ProductController) Get() mvc.View {
@@ -21,7 +22,7 @@ func (my *ProductController) Get() mvc.View {
 
 func (my *ProductController) GetList() {
 
-	service := services.NewProduct()
+	service := adminService.NewProduct()
 
 	page := my.Ctx.URLParam("page")
 	size := my.Ctx.URLParam("size")
@@ -47,7 +48,7 @@ func (my *ProductController) GetEditAndEdit() mvc.View {
 }
 
 func (my *ProductController) Post() {
-	service := services.NewProduct()
+	service := adminService.NewProduct()
 	result, err := service.Request(my.Ctx)
 	if err != nil {
 		my.ReturnJson(false, nil, err.Error())
@@ -58,7 +59,7 @@ func (my *ProductController) Post() {
 }
 
 func (my *ProductController) PutBy(id int) {
-	service := services.NewProduct()
+	service := adminService.NewProduct()
 	result, err := service.Request(my.Ctx)
 	if err != nil {
 		my.ReturnJson(false, nil, err.Error())

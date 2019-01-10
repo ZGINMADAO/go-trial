@@ -1,0 +1,102 @@
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"></div>
+                <div class="ibox-content">
+                    <form class="row" id="searchForm">
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" placeholder="请输入关键词" class="input-md form-control" name="keyWord"
+                                       id="keyWord">
+                                <span
+                                        class="input-group-btn">
+                                        <button type="button" class="btn btn-md btn-primary"
+                                                onclick="refresh()"> 搜索</button>
+                                <button type="reset" class="btn btn-md btn-primary" style="margin-left: 10px"
+                                        name="resetBtn"> 重置</button> </span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2 pull-right" style="text-align: right">
+                            <button type="button" class="btn btn-md btn-primary" id="addBtn"> 添加</button>
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+
+                        <table id="table" class="table table-striped" data-mobile-responsive="true"></table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+{{define "admin/supplier/list-footer"}}
+
+<script>
+    var config = {};
+    config.url = '/admin/supplier/list';
+    config.columns = [ //字段
+
+        {title: '序号', field: 'Id', align: 'center', valign: 'middle'},
+        {title: '名称', field: 'Title', align: 'center', valign: 'middle'},
+        {title: '销售量', field: 'Sold', align: 'center', valign: 'middle'},
+        {title: '联系方式', field: 'Contact', align: 'center', valign: 'middle'},
+        {title: '评分', field: 'score', align: 'center', valign: 'middle'},
+        {title: '营业时间', field: 'BusinessDuration', align: 'center', valign: 'middle'},
+        {title: '地址', field: 'Address', align: 'center', valign: 'middle'},
+        {title: '状态', field: 'StatusTitle', align: 'center', valign: 'middle'},
+        {title: '创建时间', field: 'CreatedAt', align: 'center', valign: 'middle'},
+        {
+            title: '操作', field: 'Id', align: 'center', valign: 'middle',
+            formatter: function (value) {
+                return (
+                        '<a href="javascript: void(0);" onclick="units.modify(this,' + value + ')">详情</a>'
+                );
+            }
+        }
+    ];
+    tips.bootstrapTable(config);
+
+    var layerIndex;
+    $(document).on('click', '#addBtn', function () {
+
+        layerIndex = layer.open({
+            type: 2,
+            title: '添加商品分类',
+            area: ['90%', '90%'],
+            content: '/admin/product/edit'
+        });
+    });
+
+    var units = {
+
+        modify: function (_this, id) {
+            var temp = $(_this).parent().prev();
+            layerIndex = layer.open({
+                type: 1,
+                title: '修改商品分类',
+                area: ['40%', '40%'],
+                content: units.buildHtml(temp.prev().prev().text()),
+                success: function () {
+                    var srcAddr = temp.prev().find('img').attr('src');
+                    if (srcAddr) {
+                        var imgView = $("#imgView");
+                        imgView.css('display', '');
+                        imgView.find("img").attr('src', srcAddr);
+                    }
+                    $("#addYes").data('id', id);
+                }
+            });
+        }
+    };
+
+</script>
+{{end}}

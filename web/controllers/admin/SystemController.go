@@ -1,4 +1,4 @@
-package controllers
+package admin
 
 import (
 	"github.com/kataras/iris/mvc"
@@ -6,12 +6,12 @@ import (
 	"go-trial/units"
 	"github.com/kataras/iris"
 	"go-trial/datamodels"
-	//"strconv"
 	"strconv"
+	"go-trial/web/controllers"
 )
 
 type SystemController struct {
-	BaseController
+	controllers.BaseController
 }
 
 func (my *SystemController) GetRole() mvc.View {

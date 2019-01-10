@@ -1,4 +1,4 @@
-package services
+package admin
 
 import (
 	"go-trial/datamodels"

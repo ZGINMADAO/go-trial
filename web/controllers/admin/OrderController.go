@@ -1,13 +1,14 @@
-package controllers
+package admin
 
 import (
 	"github.com/kataras/iris/mvc"
-	"go-trial/services"
+	adminService "go-trial/services/admin"
 	"github.com/kataras/iris"
+	"go-trial/web/controllers"
 )
 
 type OrderController struct {
-	BaseController
+	controllers.BaseController
 }
 
 func (my *OrderController) Get() mvc.View {
@@ -18,7 +19,7 @@ func (my *OrderController) Get() mvc.View {
 
 func (my *OrderController) GetList() {
 
-	service := services.NewOrder()
+	service := adminService.NewOrder()
 	page := my.Ctx.URLParam("page")
 	size := my.Ctx.URLParam("size")
 	keyWord := my.Ctx.URLParam("keyWord")

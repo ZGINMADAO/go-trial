@@ -1,4 +1,4 @@
-package controllers
+package admin
 
 import (
 	"os"
@@ -9,10 +9,11 @@ import (
 	"net/smtp"
 	"strings"
 	"github.com/kataras/iris/mvc"
+	"go-trial/web/controllers"
 )
 
 type ToolController struct {
-	BaseController
+	controllers.BaseController
 }
 
 func (my *ToolController) PostUpload() {

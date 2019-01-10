@@ -3,28 +3,42 @@ package main
 import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
-	"go-trial/web/controllers"
+	"go-trial/web/controllers/admin"
 	"go-trial/datasource"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/sessions"
 	"time"
-	//"github.com/kataras/iris/hero"
+	"os"
 	"go-trial/web/middleware"
 	"github.com/kataras/iris/hero"
 	"github.com/kataras/iris/websocket"
 	//"go-trial/web/socket"
 	"github.com/dgrijalva/jwt-go"
-	jwtmiddleware "github.com/iris-contrib/middleware/jwt"
+	jwtMiddleware "github.com/iris-contrib/middleware/jwt"
+	"go-trial/web/controllers"
 )
 
 var DB *xorm.Engine
 
 var SessionManage *sessions.Sessions
 
+//根据日期获取文件名，仅用于容易区分
+func todayFilename() string {
+	today := time.Now().Format("Jan 02 2006")
+	return today + ".txt"
+}
+
+func newLogFile() *os.File {
+	filename := "./storage/logs/" + todayFilename()
+	//打开文件，如果服务器重新启动，这将附加到今天的文件。
+	f, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		panic(err)
+	}
+	return f
+}
+
 func main() {
-
-
-
 
 	crs := func(ctx iris.Context) {
 		ctx.Header("Access-Control-Allow-Origin", "*")
@@ -41,10 +55,14 @@ func main() {
 
 	DB = datasource.Instance()
 
+	f := newLogFile()
+	defer f.Close()
+
 	app := iris.New()
+	app.Logger().SetLevel("warn")
+	app.Logger().SetOutput(f)
 
-
-	jwtHandler := jwtmiddleware.New(jwtmiddleware.Config{
+	jwtHandler := jwtMiddleware.New(jwtMiddleware.Config{
 		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
 			return []byte("My Secret"), nil
 		},
@@ -54,7 +72,6 @@ func main() {
 		SigningMethod: jwt.SigningMethodHS256,
 	})
 
-
 	app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
 		ctx.WriteString("404")
 	})
@@ -63,7 +80,6 @@ func main() {
 		ctx.WriteString("500")
 	})
 
-	//app.Logger().SetLevel("debug")
 	app.Favicon("./web/public/favicon.ico")
 	app.StaticWeb("/public", "./web/public")
 
@@ -94,7 +110,7 @@ func main() {
 	mvc.Configure(app.Party("/admin"), AdminMvc)
 	mvc.Configure(app.Party("/test"), TestMvc)
 	mvc.Configure(app.Party("/socket"), SocketMvc)
-	mvc.Configure(app.Party("/wap",crs,jwtHandler.Serve), SocketMvc)
+	mvc.Configure(app.Party("/wap", crs, jwtHandler.Serve), SocketMvc)
 
 	//socket.StartSocket(app)
 
@@ -114,17 +130,17 @@ func AdminMvc(app *mvc.Application) {
 	app.Router.Use(hero.Handler(middleware.SessionAuth))
 
 	app.Register(DB, session)
-	//app.Register(SessionManage.Start)
+	app.Register(SessionManage.Start)
 	app.Router.Get("/mailbox", func(ctx iris.Context) {
 		ctx.View("admin/mailbox.html")
 	})
-	app.Party("/auth").Handle(new(controllers.AuthController))
-	app.Party("/product").Handle(new(controllers.ProductController))
-	app.Party("/tool").Handle(new(controllers.ToolController))
-	app.Party("/order").Handle(new(controllers.OrderController))
-	app.Party("/system").Handle(new(controllers.SystemController))
+	app.Party("/auth").Handle(new(admin.AuthController))
+	app.Party("/product").Handle(new(admin.ProductController))
+	app.Party("/tool").Handle(new(admin.ToolController))
+	app.Party("/order").Handle(new(admin.OrderController))
+	app.Party("/system").Handle(new(admin.SystemController))
+	app.Party("/supplier").Handle(new(admin.SupplierController))
 }
-
 
 func TestMvc(app *mvc.Application) {
 	app.Router.Use(func(ctx iris.Context) {
@@ -148,9 +164,8 @@ func SocketMvc(app *mvc.Application) {
 	//ws.OnConnection(handleConnection)
 
 	app.Register(ws.Upgrade)
-	app.Handle(new(controllers.SocketController))
+	app.Handle(new(admin.SocketController))
 }
-
 
 func WapMvc(app *mvc.Application) {
 
@@ -166,7 +181,7 @@ func WapMvc(app *mvc.Application) {
 	//ws.OnConnection(handleConnection)
 
 	app.Register(ws.Upgrade)
-	app.Handle(new(controllers.SocketController))
+	app.Handle(new(admin.SocketController))
 }
 
 //func handleConnection(c websocket.Connection) {
