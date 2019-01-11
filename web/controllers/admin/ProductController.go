@@ -158,3 +158,23 @@ func (my *ProductController) DeleteTypeBy(id int) {
 	}
 	my.ReturnJson(true, nil, "操作成功")
 }
+func (my *ProductController) GetDiscount() mvc.View {
+	return mvc.View{
+		Name: "admin/product/discount.html",
+	}
+}
+func (my *ProductController) GetDiscountActivity() mvc.View {
+	return mvc.View{
+		Name: "admin/product/discount-activity.html",
+	}
+}
+func (my *ProductController) GetCrowd() mvc.View {
+	return mvc.View{
+		Name: "admin/product/crowd.html",
+	}
+}
+func (my *ProductController) GetPurchase() mvc.View {
+	return mvc.View{
+		Name: "admin/product/purchase.html",
+	}
+}
